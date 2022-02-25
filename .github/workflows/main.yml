@@ -18,7 +18,9 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         id: build
-        run: ./gradlew setupActions build --stacktrace
+        run: ./gradlew setupActions build publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Create a Release"
         id: create_release
         uses: meeDamian/github-release@2.0
@@ -28,3 +30,4 @@ jobs:
           gzip: false
           name: "${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}"
           token: "${{ secrets.GITHUB_TOKEN }}"
+
