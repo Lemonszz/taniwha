@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public class WoodTypeInvoker {
 
     @Invoker
-    public static WoodType callRegister(String name)
+    public static WoodType callRegister(WoodType type)
     {
         throw new AssertionError();
     }

@@ -6,7 +6,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import party.lemons.biomemakeover.util.MathUtils;
+import party.lemons.taniwha.util.MathUtils;
 
 public class FoliageShiftBlockColorProvider extends FoliageBlockColorProvider
 {

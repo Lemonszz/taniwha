@@ -7,6 +7,8 @@ public class SignTypeHooks
 {
     public static WoodType register(String name)
     {
-        return WoodTypeInvoker.callRegister(name);
+        WoodType type = new WoodType(name);
+
+        return WoodTypeInvoker.callRegister(type);
     }
 }
