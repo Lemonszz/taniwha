@@ -4,10 +4,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        java: [
-          17 # Target
-        ]
+        os: [ubuntu-latest]
+        java: [17]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -17,7 +15,15 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Grant execute permission for gradlew
-        if: ${{ runner.os != 'Windows' }}
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        id: build,
+        run: ./gradlew setupActions build --stacktrace
+      - name: "Create a Release"
+        id: create_release
+        uses: meeDamian/github-release@2.0
+        with:
+          files: "fabric/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-fabric.jar forge/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-forge.jar"
+          gzip: false
+          name: "${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
