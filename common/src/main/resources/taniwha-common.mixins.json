@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "party.lemons.taniwha.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "totem.client.ClientPacketListenerMixin"
+  ],
+  "mixins": [
+    "block.entity.brewingstand.BrewingStandBlockEntityMixin",
+    "block.entity.brewingstand.BrewingStandFuelSlotMixin",
+    "block.entity.BlockEntityTypeMixin",
+    "block.FireBlockInvoker",
+    "totem.LivingEntityMixin",
+    "sign.WoodTypeInvoker",
+    "advancement.InventoryChangeTriggerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

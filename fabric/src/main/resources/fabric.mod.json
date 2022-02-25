@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "taniwha",
+  "version": "${version}",
+  "name": "Taniwha",
+  "description": "Common Library for my mods and other Architectury Projects",
+  "authors": [
+    "Lemons"
+  ],
+  "contact": {
+    "homepage": "https://github.com/lemonszz/taniwha/issues",
+    "sources": "https://github.com/lemonszz/taniwha/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/examplemod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "party.lemons.taniwha.fabric.TaniwhaFabric"
+    ],
+    "client": [
+      "party.lemons.taniwha.fabric.TaniwhaFabricClient"
+    ]
+  },
+  "mixins": [
+    "taniwha.mixins.json",
+    "taniwha-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.18.1",
+    "architectury": ">=3.7.22"
+  }
+}

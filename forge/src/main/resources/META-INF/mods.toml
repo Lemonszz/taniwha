@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[39,)"
+issueTrackerURL = "https://github.com/lemonszz/taniwha/issues"
+license = "MIT"
+
+[[mods]]
+modId = "taniwha"
+version = "${version}"
+displayName = "Taniwha"
+authors = "Lemons"
+description = '''
+Common Library for my mods and other Architectury Projects
+'''
+#logoFile = ""
+
+[[dependencies.taniwha]]
+modId = "forge"
+mandatory = true
+versionRange = "[39,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.taniwha]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.taniwha]]
+modId = "architectury"
+mandatory = true
+versionRange = "[3.7.22,)"
+ordering = "AFTER"
+side = "BOTH"
