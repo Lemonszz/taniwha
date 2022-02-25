@@ -79,6 +79,11 @@ components.java {
 }
 
 publishing {
+    def credsFile = rootProject.file("creds.properties")
+    def prop = new Properties()
+    prop.load(new FileInputStream(credsFile))
+
+
     publications {
         mavenForge(MavenPublication) {
             artifactId = rootProject.archives_base_name + "-" + project.name
@@ -90,6 +95,14 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = "https://maven.pkg.github.com/lemonszz/taniwha"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+        maven {
+            name = "PackageCloud"
+            url = "https://packagecloud.io/Lemonszz/taniwha"
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
