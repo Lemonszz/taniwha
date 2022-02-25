@@ -43,3 +43,14 @@ allprojects {
         withSourcesJar()
     }
 }
+
+task setupActions() {
+    doLast {
+        exec {
+            commandLine "echo", "##[set-output name=modid;]${rootProject.archives_base_name}";
+        }
+        exec {
+            commandLine "echo", "##[set-output name=version;]${rootProject.mod_version}";
+        }
+    }
+}
