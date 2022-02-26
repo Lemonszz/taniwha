@@ -5,6 +5,7 @@ loom {
     forge {
         mixinConfig "taniwha-common.mixins.json"
         mixinConfig "taniwha.mixins.json"
+        accessTransformer file("src/main/resources/META-INF/accesstransformer.cfg")
     }
 }
 
