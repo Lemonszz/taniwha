@@ -1,14 +1,13 @@
 package party.lemons.taniwha.hooks.sign;
 
 import net.minecraft.world.level.block.state.properties.WoodType;
-import party.lemons.taniwha.mixin.sign.WoodTypeInvoker;
 
-public class SignTypeHooks
+public interface SignTypeHooks
 {
-    public static WoodType register(String name)
+    static WoodType registerSign(String name)
     {
-        WoodType type = new WoodType(name);
-
-        return WoodTypeInvoker.callRegister(type);
+        return ((SignTypeHooks)WoodType.OAK).registerType(name);
     }
+
+    WoodType registerType(String name);
 }

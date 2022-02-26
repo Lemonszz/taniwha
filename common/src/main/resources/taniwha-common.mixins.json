@@ -11,7 +11,7 @@
     "block.entity.BlockEntityTypeMixin",
     "block.FireBlockInvoker",
     "totem.LivingEntityMixin",
-    "sign.WoodTypeInvoker",
+    "sign.WoodTypeMixin",
     "advancement.InventoryChangeTriggerMixin"
   ],
   "injectors": {

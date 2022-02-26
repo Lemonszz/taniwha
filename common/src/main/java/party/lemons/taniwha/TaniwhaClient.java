@@ -10,12 +10,10 @@ public class TaniwhaClient
 {
     public static void init()
     {
-        BoatTypes.registerModelLayers();
-        TEntities.registerModels();
-
-
         LifecycleEvent.SETUP.register(()->{
             TBlocks.initClient();
+            BoatTypes.registerModelLayers();
+            TEntities.registerModels();
         });
     }
 }

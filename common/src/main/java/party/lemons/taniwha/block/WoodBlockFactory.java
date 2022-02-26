@@ -55,7 +55,7 @@ public class WoodBlockFactory
         this.callback = callback;
         this.tab = group;
 
-        woodType = SignTypeHooks.register(name);
+        woodType = SignTypeHooks.registerSign(name);
 
         set(Type.LOG, new TPillarBlock(settings).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->getBlock(Type.STRIPPED_LOG))));
         set(Type.STRIPPED_LOG, new TPillarBlock(settings).modifiers(FlammableModifier.WOOD));;
