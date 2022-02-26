@@ -85,10 +85,10 @@ public class DecorationBlockFactory
         return blocks.get(type);
     }
 
-    public DecorationBlockFactory register(String modid)
+    public DecorationBlockFactory register()
     {
-        DeferredRegister<Block> bR = DeferredRegister.create(modid, Registry.BLOCK_REGISTRY);
-        DeferredRegister<Item> iR = DeferredRegister.create(modid, Registry.ITEM_REGISTRY);
+        DeferredRegister<Block> bR = DeferredRegister.create(this.modid, Registry.BLOCK_REGISTRY);
+        DeferredRegister<Item> iR = DeferredRegister.create(this.modid, Registry.ITEM_REGISTRY);
 
         for(Type key : blocks.keySet())
         {
