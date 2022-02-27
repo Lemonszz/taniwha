@@ -5,12 +5,15 @@ import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import party.lemons.taniwha.block.TBlocks;
+import party.lemons.taniwha.config.TaniwhaConfig;
 import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.entity.TEntities;
 import party.lemons.taniwha.item.TItems;
 
 public class Taniwha
 {
+    public static final TaniwhaConfig CONFIG = new TaniwhaConfig();
+
     public static void init()
     {
         TEntities.init();

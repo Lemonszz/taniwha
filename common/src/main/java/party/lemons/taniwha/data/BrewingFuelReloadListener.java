@@ -28,9 +28,13 @@ public class BrewingFuelReloadListener extends SimpleJsonResourceReloadListener
         elements.forEach((l, json)->{
             JsonObject object = json.getAsJsonObject();
 
-            Ingredient ingredient = Ingredient.fromJson(object.getAsJsonObject("item"));
-            int fuel = object.getAsJsonPrimitive("fuel").getAsInt();
-            BrewingStandHooks.registerBrewingFuelItem(ingredient, fuel);
+            //Empty objects ( {} ) are ignored. This is so you can override a fuel.
+            if(!object.entrySet().isEmpty())
+            {
+                Ingredient ingredient = Ingredient.fromJson(object.getAsJsonObject("item"));
+                int fuel = object.getAsJsonPrimitive("fuel").getAsInt();
+                BrewingStandHooks.registerBrewingFuelItem(ingredient, fuel);
+            }
         });
     }
 }

@@ -40,14 +40,15 @@ public class BrewingStandHooks {
         EXTRA_FUEL.clear();
     }
 
+    /***
+     * Returns the amount of brewing stand fuel an item stack provides
+     * @param stack
+     * @return fuel amount
+     */
     public static int getFuelForItem(ItemStack stack)
     {
         if(stack.isEmpty())
             return 0;
-
-        ItemLike checkItem = stack.getItem();
-        if(checkItem == Items.BLAZE_POWDER)
-            return 20;
 
         for(Pair<Ingredient, Integer> fuelSource : EXTRA_FUEL)
         {
