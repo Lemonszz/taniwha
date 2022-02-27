@@ -8,6 +8,7 @@ import party.lemons.taniwha.block.TBlocks;
 import party.lemons.taniwha.config.TaniwhaConfig;
 import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.entity.TEntities;
+import party.lemons.taniwha.entity.golem.GolemHandler;
 import party.lemons.taniwha.item.TItems;
 
 public class Taniwha
@@ -23,10 +24,16 @@ public class Taniwha
             TItems.runModifiers();
             TBlocks.initModifiers();
             TBlocks.initCompostables();
+
+            GolemHandler.init();
         });
     }
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(TConstants.MOD_ID, path);
+    }
+    public static ResourceLocation commonId(String path)
+    {
+        return new ResourceLocation(TConstants.COMMON_MOD_ID, path);
     }
 }

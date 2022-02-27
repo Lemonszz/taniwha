@@ -13,7 +13,9 @@
     "block.FireBlockInvoker",
     "totem.LivingEntityMixin",
     "sign.WoodTypeMixin",
-    "advancement.InventoryChangeTriggerMixin"
+    "advancement.InventoryChangeTriggerMixin",
+    "entity.golem.CarvedPumpkinBlockMixin",
+    "entity.golem.DispenserBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
