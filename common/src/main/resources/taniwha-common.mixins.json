@@ -15,7 +15,8 @@
     "sign.WoodTypeMixin",
     "advancement.InventoryChangeTriggerMixin",
     "entity.golem.CarvedPumpkinBlockMixin",
-    "entity.golem.DispenserBlockMixin"
+    "entity.golem.DispenserBlockMixin",
+    "block.noteblock.NoteBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
