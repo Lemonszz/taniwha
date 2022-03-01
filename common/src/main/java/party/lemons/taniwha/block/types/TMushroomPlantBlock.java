@@ -1,6 +1,7 @@
 package party.lemons.taniwha.block.types;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -17,9 +18,9 @@ import java.util.function.Supplier;
 
 public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBlock, BlockWithItem, BlockWithModifiers<TMushroomPlantBlock> {
 
-    private final Supplier<ConfiguredFeature<?, ?>> giantShroomFeature;
+    private final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> giantShroomFeature;
 
-    public TMushroomPlantBlock(Supplier<ConfiguredFeature<?, ?>> giantShroomFeature, Properties properties) {
+    public TMushroomPlantBlock(Supplier<Holder<? extends ConfiguredFeature<?, ?>>> giantShroomFeature, Properties properties) {
         super(properties, giantShroomFeature);
 
         this.giantShroomFeature = giantShroomFeature;
@@ -41,7 +42,7 @@ public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBl
             return false;
 
         serverLevel.removeBlock(blockPos, false);
-        if (this.giantShroomFeature.get().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, blockPos)) {
+        if (this.giantShroomFeature.get().value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, blockPos)) {
             return true;
         }
         serverLevel.setBlock(blockPos, blockState, 3);

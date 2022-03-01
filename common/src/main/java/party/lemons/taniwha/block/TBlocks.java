@@ -4,11 +4,14 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import dev.architectury.hooks.tags.TagHooks;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 import party.lemons.taniwha.Taniwha;
@@ -41,5 +44,5 @@ public class TBlocks {
                 RTYPES.forEach((block, type) -> RenderTypeRegistry.register(type.getAsRenderType(), block)));
     }
 
-    public static Tag<Block> GOLEM_HEADS = TagHooks.optionalBlock(Taniwha.id("golem_heads"));
+    public static TagKey<Block> GOLEM_HEADS = TagKey.create(Registry.BLOCK_REGISTRY, Taniwha.id("golem_heads"));
 }

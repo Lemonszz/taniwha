@@ -9,6 +9,8 @@ import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -47,14 +49,14 @@ import java.util.function.Predicate;
 public class GolemHandler
 {
     private static final List<GolemInstance> golems = Lists.newArrayList();
-    private static final List<Tag<Block>> golemHeadTags = Lists.newArrayList();
+    private static final List<TagKey<Block>> golemHeadTags = Lists.newArrayList();
     private static final List<Item> registeredDispenserBehaviour = Lists.newArrayList();
     private static final Map<Item, DispenseItemBehavior> dispenseBehaviourOverride = Maps.newHashMap();
 
     public static final Predicate<BlockState> STANDARD_HEADS = st->st.is(TBlocks.GOLEM_HEADS);  //Standard head (pumpkin) BS predicate
 
     //TODO: this seems fucky
-    public static final Predicate<Tag<Block>> IS_STANDARD_GOLEM_HEAD_TAG = t->t.equals(TBlocks.GOLEM_HEADS); //Predicate to check if a tag is the standard golem head tag
+    public static final Predicate<TagKey<Block>> IS_STANDARD_GOLEM_HEAD_TAG = t->t.equals(TBlocks.GOLEM_HEADS); //Predicate to check if a tag is the standard golem head tag
 
     /***
      * Registers a pattern for golems
@@ -63,7 +65,7 @@ public class GolemHandler
      * @param basePattern   Base pattern, without head
      * @param result        Golem result.
      */
-    public static void addPattern(Predicate<Tag<Block>> headPredicate, BlockPattern fullPattern, BlockPattern basePattern, GolemResult result)
+    public static void addPattern(Predicate<TagKey<Block>> headPredicate, BlockPattern fullPattern, BlockPattern basePattern, GolemResult result)
     {
         golems.add(new GolemInstance(headPredicate, fullPattern, basePattern, result));
     }
@@ -77,7 +79,7 @@ public class GolemHandler
      * Adds a new tag to check for golem heads
      * @param tag The block tag to add
      */
-    public static void addGolemHeadTag(Tag<Block> tag)
+    public static void addGolemHeadTag(TagKey<Block> tag)
     {
         golemHeadTags.add(tag);
         reloadDispenserBehaviours();
@@ -108,7 +110,7 @@ public class GolemHandler
         //Block place event.
         //Checks if placed block is in any of the golemHeadTags, then tries to create it.
         BlockEvent.PLACE.register((level, pos, state, placer) -> {
-            for(Tag<Block> tag : golemHeadTags)
+            for(TagKey<Block> tag : golemHeadTags)
             {
                 if(state.is(tag))
                 {
@@ -141,7 +143,7 @@ public class GolemHandler
      */
     public static boolean canDispenseGolem(ServerLevel level, BlockPos blockPos, ItemStack stack)
     {
-        Tag<Block> headTag = getHeadTagForStack(stack);
+        TagKey<Block> headTag = getHeadTagForStack(stack);
         if(headTag == null)
             return false;
 
@@ -160,7 +162,7 @@ public class GolemHandler
      * @param stack check stack
      * @return head tag
      */
-    private static Tag<Block> getHeadTagForStack(ItemStack stack)
+    private static TagKey<Block> getHeadTagForStack(ItemStack stack)
     {
         if(stack.isEmpty())
             return null;
@@ -168,9 +170,9 @@ public class GolemHandler
         Item item = stack.getItem();
         if(item instanceof BlockItem bi)
         {
-            for(Tag<Block> tag : golemHeadTags)
+            for(TagKey<Block> tag : golemHeadTags)
             {
-                if(tag.contains(bi.getBlock()))
+                if(bi.getBlock().defaultBlockState().is(tag))
                     return tag;
             }
         }
@@ -221,14 +223,13 @@ public class GolemHandler
 
         registeredDispenserBehaviour.clear();
 
-        for(Tag<Block> tag : golemHeadTags)
+        for(TagKey<Block> tag : golemHeadTags)
         {
-            for(Block bl : tag.getValues())
-            {
+            for (Holder<Block> blockHolder : Registry.BLOCK.getTagOrEmpty(tag)) {
+                Block bl = blockHolder.value();
                 Item it = bl.asItem();
 
-                if(it != Items.AIR)
-                {
+                if (it != Items.AIR) {
                     registeredDispenserBehaviour.add(it);
 
                     DispenserBlock.registerBehavior(it, dispenseBehaviourOverride.getOrDefault(it, DISPENSE_BEHAVIOUR));
@@ -237,7 +238,7 @@ public class GolemHandler
         }
     }
 
-    public record GolemInstance(Predicate<Tag<Block>> headPredicate, BlockPattern fullPattern, BlockPattern basePattern, GolemResult result)
+    public record GolemInstance(Predicate<TagKey<Block>> headPredicate, BlockPattern fullPattern, BlockPattern basePattern, GolemResult result)
     {
     }
 

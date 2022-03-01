@@ -37,48 +37,4 @@ public class FoliageShiftBlockColorProvider extends FoliageBlockColorProvider
     {
         return new int[]{rShift, gShift, bShift};
     }
-
-    public static class Lillies extends FoliageShiftBlockColorProvider
-    {
-        public Lillies()
-        {
-            super(-10, 10, -10);
-        }
-
-        @Override
-        protected int[] getColorBoosts(BlockAndTintGetter world, BlockState state, BlockPos pos, int tintIndex)
-        {
-            if(world instanceof ClientLevel && pos != null)
-            {
-                if(((ClientLevel) world).getBiome(pos).getBiomeCategory() == Biome.BiomeCategory.SWAMP)
-                {
-                    return new int[]{-20, 40, -20};
-                }
-            }
-
-            return super.getColorBoosts(world, state, pos, tintIndex);
-        }
-    }
-
-    public static class Willow extends FoliageShiftBlockColorProvider
-    {
-        public Willow()
-        {
-            super(0, 0, 0);
-        }
-
-        @Override
-        protected int[] getColorBoosts(BlockAndTintGetter world, BlockState state, BlockPos pos, int tintIndex)
-        {
-            if(world instanceof ClientLevel)
-            {
-                if(((ClientLevel) world).getBiome(pos).getBiomeCategory() == Biome.BiomeCategory.SWAMP)
-                {
-                    return new int[]{-10, 15, -10};
-                }
-            }
-
-            return super.getColorBoosts(world, state, pos, tintIndex);
-        }
-    }
 }
