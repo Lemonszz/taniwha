@@ -11,14 +11,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.apache.commons.compress.utils.Lists;
 import party.lemons.taniwha.block.types.TStairBlock;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class DecorationBlockFactory
 {
+    public static final List<DecorationBlockFactory> REGISTERED_FACTORIES = Lists.newArrayList();
+
     private final Map<Type, Block> blocks = Maps.newHashMap();
     private final String name;
     private final BlockBehaviour.Properties settings;
@@ -27,7 +31,6 @@ public class DecorationBlockFactory
     private final String modid;
     private final CreativeModeTab tab;
     protected Supplier<Item.Properties> blockItemProperties;
-
 
     public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Block baseBlock, Block.Properties settings)
     {
@@ -85,6 +88,16 @@ public class DecorationBlockFactory
         return blocks.get(type);
     }
 
+    public boolean has(Type type)
+    {
+        return blocks.containsKey(type);
+    }
+
+    public Block getBase()
+    {
+        return base;
+    }
+
     public DecorationBlockFactory register()
     {
         DeferredRegister<Block> bR = DeferredRegister.create(this.modid, Registry.BLOCK_REGISTRY);
@@ -103,6 +116,8 @@ public class DecorationBlockFactory
         }
         bR.register();
         iR.register();
+
+        REGISTERED_FACTORIES.add(this);
         return this;
     }
     public enum Type

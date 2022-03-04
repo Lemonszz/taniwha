@@ -3,8 +3,7 @@
   "package": "party.lemons.taniwha.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
-    "totem.client.ClientPacketListenerMixin",
-    "client.disableexperimentalwarning.ConfirmScreenMixin"
+    "totem.client.ClientPacketListenerMixin"
   ],
   "mixins": [
     "block.entity.brewingstand.BrewingStandBlockEntityMixin",
