@@ -32,7 +32,6 @@ public class BoatTypes
                 if(((VanillaBoatType) t).getVanillaType() == boatType) return t;
             }
         }
-
         return null;
     }
 

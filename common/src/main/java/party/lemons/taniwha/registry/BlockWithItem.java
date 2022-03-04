@@ -6,6 +6,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import party.lemons.taniwha.item.TItems;
 
 public interface BlockWithItem
 {
@@ -26,6 +27,6 @@ public interface BlockWithItem
 
     default void registerItem(ResourceLocation id, CreativeModeTab group)
     {
-        RegistryHelper.registerObject(Registry.ITEM, id, makeItem(group));
+        RegistryHelper.register(TItems.ITEMS, id, ()->makeItem(group));
     }
 }

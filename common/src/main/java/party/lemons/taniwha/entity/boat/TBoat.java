@@ -25,7 +25,7 @@ public class TBoat extends Boat
 
     public TBoat(Level world, double x, double y, double z)
     {
-        this(TEntities.T_BOAT, world);
+        this(TEntities.T_BOAT.get(), world);
         this.setPos(x, y, z);
         this.xo = x;
         this.yo = y;
@@ -34,7 +34,7 @@ public class TBoat extends Boat
 
     public TBoat(Boat boatEntity, BoatType type)
     {
-        this(TEntities.T_BOAT, boatEntity.level);
+        this(TEntities.T_BOAT.get(), boatEntity.level);
 
         this.copyPosition(boatEntity);
         setBoatType(type);

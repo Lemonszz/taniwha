@@ -2,9 +2,11 @@ package party.lemons.taniwha;
 
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
+import dev.architectury.registry.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.LazyLoadedValue;
 import party.lemons.taniwha.block.TBlocks;
 import party.lemons.taniwha.block.instrument.NoteInstrument;
 import party.lemons.taniwha.block.instrument.TagNoteInstrument;
@@ -18,9 +20,11 @@ public class Taniwha
 {
     public static final TaniwhaConfig CONFIG = new TaniwhaConfig();
 
+
     public static void init()
     {
         TEntities.init();
+        TItems.init();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new BrewingFuelReloadListener());
 
 

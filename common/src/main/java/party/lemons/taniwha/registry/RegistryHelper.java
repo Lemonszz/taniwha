@@ -1,103 +1,59 @@
 package party.lemons.taniwha.registry;
 
-import com.google.common.collect.Maps;
 import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.Registries;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public final class RegistryHelper
 {
-    /***
-     * Registers all static final fields of the given type in the given class to the given registry
-     * @param modid
-     * @param registry
-     * @param typeClass
-     * @param from
-     * @param callbacks
-     */
-    @SafeVarargs
-    public static <T> void register(String modid, Registry<T> registry, Class<?> typeClass, Class<?> from, RegistryCallback<T>... callbacks)
+    public static <T> void registerObject(Registry<T> registry, ResourceLocation id, RegistrySupplier<T> object)
     {
-        ResourceKey<Registry<T>> key = (ResourceKey<Registry<T>>) registry.key();
-        DeferredRegister<T> register = DeferredRegister.create(modid, key);
-
-        try
-        {
-            Field[] fields = from.getDeclaredFields();
-
-            for(Field field : fields)
-            {
-                if(typeClass.isAssignableFrom(field.getType()) && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
-                {
-
-                    T value = (T) field.get(from);
-                    String regName = field.getName().toLowerCase(Locale.ENGLISH);
-                    ResourceLocation id = new ResourceLocation(modid, regName);
-
-                    register.register(id, ()->value);
-                    for(RegistryCallback<T> cb : callbacks)
-                    {
-                        cb.callback(registry, value, id);
-                    }
-                }
-            }
-
-            register.register();
-
-        }catch(Exception e)
-        {
-            //if crash == true; dont();
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean isValidField(Class<?> typeClass, Field field)
-    {
-        return typeClass.isAssignableFrom(field.getType()) && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers());
-    }
-
-    public static <T> void registerObject(Registry<T> registry, ResourceLocation id, T object)
-    {
-        DeferredRegister r = DeferredRegister.create(id.getNamespace(), (ResourceKey)registry.key());
-        r.register(id, ()->object);
+        DeferredRegister<T> r = DeferredRegister.create(id.getNamespace(), (ResourceKey)registry.key());
+        r.register(id, object);
         r.register();
     }
 
-    public static <T> void gatherFields(String modid, Class<T> typeClass, Class<?> from, List<Pair<ResourceLocation, T>> list)
+    public static <T> void registerObject(Registry<T> registry, ResourceLocation id, Supplier<T> object)
     {
-        try {
-            Field[] fields = from.getDeclaredFields();
+        DeferredRegister<T> r = DeferredRegister.create(id.getNamespace(), (ResourceKey)registry.key());
+        r.register(id, object);
+        r.register();
+    }
 
-            for (Field field : fields) {
-                if (typeClass.isAssignableFrom(field.getType()) && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
+    public static <T> void register(DeferredRegister<T> register, ResourceLocation location, Supplier<T> object)
+    {
+        register(register, location, object, new RegistryCallback[0]);
+    }
 
-                    T value = (T) field.get(from);
-                    String regName = field.getName().toLowerCase(Locale.ENGLISH);
-                    ResourceLocation id = new ResourceLocation(modid, regName);
+    public static <T> void register(DeferredRegister<T> register, ResourceLocation location, Supplier<T> object, RegistryCallback<T>... callbacks)
+    {
+        register.register(location, object);
 
-                    list.add(Pair.of(id, value));
-                }
-            }
-        }catch (Exception e)
+        for(RegistryCallback<T> callback : callbacks)
         {
-            e.printStackTrace();
+            callback.callback(register, location, object);
         }
     }
 
     public interface RegistryCallback<T>
     {
-        void callback(Registry<T> registry, T registryObject, ResourceLocation identifier);
+        void callback(DeferredRegister<T> register, ResourceLocation id, Supplier<T> registryObject);
     }
 
     public static class BlockWithItemCallback implements RegistryCallback<Block>
@@ -110,14 +66,16 @@ public final class RegistryHelper
         }
 
         @Override
-        public void callback(Registry<Block> registry, Block bl, ResourceLocation id)
-        {
-            if(!(bl instanceof BlockWithItem)) return;
+        public void callback(DeferredRegister<Block> register, ResourceLocation id, Supplier<Block> registryObject) {
+            Block bl = registryObject.get();
 
-            BlockWithItem info = (BlockWithItem) bl;
-            if(!info.hasItem()) return;
+            if(bl instanceof BlockWithItem bi)
+            {
+                BlockWithItem info = (BlockWithItem) bl;
+                if(!info.hasItem()) return;
 
-            info.registerItem(id, group);
+                info.registerItem(id, group);
+            }
         }
     }
 
