@@ -155,7 +155,7 @@ public class WoodBlockFactory
         return blocks.get(type);
     }
 
-    public Item getItem(Type type)
+    public Supplier<Item> getItem(Type type)
     {
         return items.get(type);
     }
