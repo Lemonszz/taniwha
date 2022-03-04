@@ -32,13 +32,12 @@ import java.util.function.Supplier;
 
 public class WoodBlockFactory
 {
-    private final Map<Type, Block> blocks = Maps.newHashMap();
-    private final Map<Type, Item> items = Maps.newHashMap();
+    private final Map<Type, Supplier<Block>> blocks = Maps.newHashMap();
+    private final Map<Type, Supplier<Item>> items = Maps.newHashMap();
     private final WoodType woodType;
     private final String name;
     private final BlockBehaviour.Properties settings;
-    private final Consumer<Block> callback;
-    private final BlockState defaultState;
+    private final Consumer<Supplier<Block>> callback;
     private final String modid;
     private final CreativeModeTab tab;
 
@@ -47,7 +46,7 @@ public class WoodBlockFactory
         this(modid, group, name, settings, null);
     }
 
-    public WoodBlockFactory(String modid, CreativeModeTab group, String name, Block.Properties settings, Consumer<Block> callback)
+    public WoodBlockFactory(String modid, CreativeModeTab group, String name, Block.Properties settings, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
@@ -57,61 +56,59 @@ public class WoodBlockFactory
 
         woodType = SignTypeHooks.createWoodType(name);
 
-        set(Type.LOG, new TPillarBlock(settings).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->getBlock(Type.STRIPPED_LOG))));
-        set(Type.STRIPPED_LOG, new TPillarBlock(settings).modifiers(FlammableModifier.WOOD));;
-        set(Type.PLANK, new TBlock(settings).modifiers(FlammableModifier.WOOD));
-
-        defaultState = getBlock(Type.PLANK).defaultBlockState();
+        set(Type.LOG, ()->new TPillarBlock(settings).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->getBlock(Type.STRIPPED_LOG).get())));
+        set(Type.STRIPPED_LOG, ()->new TPillarBlock(settings).modifiers(FlammableModifier.WOOD));;
+        set(Type.PLANK, ()->new TBlock(settings).modifiers(FlammableModifier.WOOD));
     }
 
     public WoodBlockFactory slab()
     {
-        set(Type.SLAB, new TSlabBlock(settings).modifiers(FlammableModifier.WOOD));
+        set(Type.SLAB, ()->new TSlabBlock(settings).modifiers(FlammableModifier.WOOD));
         return this;
     }
 
     public WoodBlockFactory stair()
     {
-        set(Type.STAIR, new TStairBlock(defaultState, settings).modifiers(FlammableModifier.WOOD));
+        set(Type.STAIR, ()->new TStairBlock(getBlock(Type.PLANK).get().defaultBlockState(), settings).modifiers(FlammableModifier.WOOD));
         return this;
     }
 
     public WoodBlockFactory fence()
     {
-        set(Type.FENCE, new TFenceBlock(settings).modifiers(FlammableModifier.WOOD));
-        set(Type.FENCE_GATE, new TFenceGateBlock(settings).modifiers(FlammableModifier.WOOD));
+        set(Type.FENCE, ()->new TFenceBlock(settings).modifiers(FlammableModifier.WOOD));
+        set(Type.FENCE_GATE, ()->new TFenceGateBlock(settings).modifiers(FlammableModifier.WOOD));
         return this;
     }
 
     public WoodBlockFactory wood()
     {
-        set(Type.WOOD, new TPillarBlock(settings).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->getBlock(Type.STRIPPED_WOOD))));
-        set(Type.STRIPPED_WOOD, new TPillarBlock(settings).modifiers(FlammableModifier.WOOD));
+        set(Type.WOOD, ()->new TPillarBlock(settings).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->getBlock(Type.STRIPPED_WOOD).get())));
+        set(Type.STRIPPED_WOOD, ()->new TPillarBlock(settings).modifiers(FlammableModifier.WOOD));
 
         return this;
     }
 
     public WoodBlockFactory pressure_plate()
     {
-        set(Type.PRESSURE_PLATE, new TPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockProperties.copy(settings).noCollission()));
+        set(Type.PRESSURE_PLATE, ()->new TPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockProperties.copy(settings).noCollission()));
         return this;
     }
 
     public WoodBlockFactory button()
     {
-        set(Type.BUTTON, new TButtonBlock(BlockProperties.copy(settings).noCollission()));
+        set(Type.BUTTON, ()->new TButtonBlock(BlockProperties.copy(settings).noCollission()));
         return this;
     }
 
     public WoodBlockFactory trapdoor()
     {
-        set(Type.TRAP_DOOR, new TTrapdoorBlock(BlockProperties.copy(settings).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT)));
+        set(Type.TRAP_DOOR, ()->new TTrapdoorBlock(BlockProperties.copy(settings).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT)));
         return this;
     }
 
     public WoodBlockFactory door()
     {
-        set(Type.DOOR, new TDoorBlock(BlockProperties.copy(settings).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT)));
+        set(Type.DOOR, ()->new TDoorBlock(BlockProperties.copy(settings).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT)));
         return this;
     }
 
@@ -119,9 +116,9 @@ public class WoodBlockFactory
     {
         SignBlock standing = new StandingSignBlock(BlockProperties.of(Material.WOOD).strength(1F).sound(SoundType.WOOD).noCollission(), woodType);
         WallSignBlock wall = new WallSignBlock(BlockProperties.of(Material.WOOD).strength(1F).sound(SoundType.WOOD).noCollission(), woodType);
-        set(Type.SIGN, standing);
-        set(Type.SIGN_WALL, wall);
-        set(Type.SIGN, new SignItem(properties(), standing, wall));
+        set(Type.SIGN, ()->standing);
+        set(Type.SIGN_WALL, ()->wall);
+        setItem(Type.SIGN, ()->new SignItem(properties(), standing, wall));
         BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, standing, wall);
 
         return this;
@@ -134,7 +131,7 @@ public class WoodBlockFactory
 
     public WoodBlockFactory boat(Supplier<BoatType> boatType)
     {
-        set(Type.BOAT, new TBoatItem(boatType, properties().stacksTo(1)));
+        setItem(Type.BOAT, ()->new TBoatItem(boatType, properties().stacksTo(1)));
         return this;
     }
 
@@ -143,17 +140,17 @@ public class WoodBlockFactory
         return slab().stair().fence().wood().pressure_plate().button().trapdoor().door().sign().boat(boatType);
     }
 
-    private void set(Type type, Block block)
+    private void set(Type type, Supplier<Block> block)
     {
         this.blocks.put(type, block);
     }
 
-    private void set(Type type, Item item)
+    private void setItem(Type type, Supplier<Item> item)
     {
         this.items.put(type, item);
     }
 
-    public Block getBlock(Type type)
+    public Supplier<Block> getBlock(Type type)
     {
         return blocks.get(type);
     }
@@ -170,8 +167,8 @@ public class WoodBlockFactory
 
         for(Type key : blocks.keySet())
         {
-            Block bl = blocks.get(key);
-            bR.register(key.make(modid, name), ()->bl);
+            Supplier<Block> bl = blocks.get(key);
+            bR.register(key.make(modid, name), bl);
 
             if(key.hasBlockItem)
                 if(bl instanceof BlockWithItem bwi)
@@ -180,7 +177,7 @@ public class WoodBlockFactory
                 }
                 else
                 {
-                    iR.register(key.make(modid, name), ()->new BlockItem(bl, properties()));
+                    iR.register(key.make(modid, name), ()->new BlockItem(bl.get(), properties()));
                 }
 
             if(callback != null)
@@ -191,7 +188,7 @@ public class WoodBlockFactory
 
         for(Type key : items.keySet())
         {
-            iR.register(key.make(modid, name), ()->items.get(key));
+            iR.register(key.make(modid, name), items.get(key));
         }
 
         bR.register();

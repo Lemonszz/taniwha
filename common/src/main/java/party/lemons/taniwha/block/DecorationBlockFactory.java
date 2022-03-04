@@ -23,21 +23,21 @@ public class DecorationBlockFactory
 {
     public static final List<DecorationBlockFactory> REGISTERED_FACTORIES = Lists.newArrayList();
 
-    private final Map<Type, Block> blocks = Maps.newHashMap();
+    private final Map<Type, Supplier<Block>> blocks = Maps.newHashMap();
     private final String name;
     private final BlockBehaviour.Properties settings;
-    private final Block base;
-    private final Consumer<Block> callback;
+    private final Supplier<Block> base;
+    private final Consumer<Supplier<Block>> callback;
     private final String modid;
     private final CreativeModeTab tab;
     protected Supplier<Item.Properties> blockItemProperties;
 
-    public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Block baseBlock, Block.Properties settings)
+    public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Supplier<Block> baseBlock, Block.Properties settings)
     {
         this(modid, tab, name, baseBlock, settings, null);
     }
 
-    public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Block baseBlock, Block.Properties settings, Consumer<Block> callback)
+    public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Supplier<Block> baseBlock, Block.Properties settings, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
@@ -51,19 +51,19 @@ public class DecorationBlockFactory
 
     public DecorationBlockFactory slab()
     {
-        set(Type.SLAB, new SlabBlock(settings));
+        set(Type.SLAB, ()->new SlabBlock(settings));
         return this;
     }
 
     public DecorationBlockFactory stair()
     {
-        set(Type.STAIR, new TStairBlock(base.defaultBlockState(), settings));
+        set(Type.STAIR, ()->new TStairBlock(base.get().defaultBlockState(), settings));
         return this;
     }
 
     public DecorationBlockFactory wall()
     {
-        set(Type.WALL, new WallBlock(settings));
+        set(Type.WALL, ()->new WallBlock(settings));
         return this;
     }
 
@@ -78,12 +78,12 @@ public class DecorationBlockFactory
         return this;
     }
 
-    private void set(Type type, Block block)
+    private void set(Type type, Supplier<Block> block)
     {
         this.blocks.put(type, block);
     }
 
-    public Block get(Type type)
+    public Supplier<Block> get(Type type)
     {
         return blocks.get(type);
     }
@@ -93,7 +93,7 @@ public class DecorationBlockFactory
         return blocks.containsKey(type);
     }
 
-    public Block getBase()
+    public Supplier<Block> getBase()
     {
         return base;
     }
@@ -105,9 +105,9 @@ public class DecorationBlockFactory
 
         for(Type key : blocks.keySet())
         {
-            Block bl = blocks.get(key);
-            bR.register(key.make(this.modid, name), ()->bl);
-            iR.register(key.make(this.modid, name), ()->new BlockItem(bl, blockItemProperties.get()));
+            Supplier<Block> bl = blocks.get(key);
+            bR.register(key.make(this.modid, name), bl);
+            iR.register(key.make(this.modid, name), ()->new BlockItem(bl.get(), blockItemProperties.get()));
 
             if(callback != null)
             {
