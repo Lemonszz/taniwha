@@ -2,13 +2,12 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Maps;
 import dev.architectury.registry.registries.DeferredRegister;
-import net.minecraft.core.Registry;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.apache.commons.compress.utils.Lists;
@@ -24,8 +23,8 @@ public class DecorationBlockFactory
 {
     public static final List<DecorationBlockFactory> REGISTERED_FACTORIES = Lists.newArrayList();
 
-    private final List<Type> types = Lists.newArrayList();
-    private final Map<Type, Supplier<Block>> blocks = Maps.newHashMap();
+    private final List<DecorationBlockFactory.Type> types = Lists.newArrayList();
+    private final Map<DecorationBlockFactory.Type, Supplier<Block>> blocks = Maps.newHashMap();
     private final String name;
     private final BlockBehaviour.Properties settings;
     private final Supplier<Block> base;
@@ -53,19 +52,19 @@ public class DecorationBlockFactory
 
     public DecorationBlockFactory slab()
     {
-        types.add(Type.SLAB);
+        types.add(DecorationBlockFactory.Type.SLAB);
         return this;
     }
 
     public DecorationBlockFactory stair()
     {
-        types.add(Type.STAIR);
+        types.add(DecorationBlockFactory.Type.STAIR);
         return this;
     }
 
     public DecorationBlockFactory wall()
     {
-        types.add(Type.WALL);
+        types.add(DecorationBlockFactory.Type.WALL);
         return this;
     }
 
@@ -80,17 +79,17 @@ public class DecorationBlockFactory
         return this;
     }
 
-    private void set(Type type, Supplier<Block> block)
+    private void set(DecorationBlockFactory.Type type, Supplier<Block> block)
     {
         this.blocks.put(type, block);
     }
 
-    public Supplier<Block> get(Type type)
+    public Supplier<Block> get(DecorationBlockFactory.Type type)
     {
         return blocks.get(type);
     }
 
-    public boolean has(Type type)
+    public boolean has(DecorationBlockFactory.Type type)
     {
         return blocks.containsKey(type);
     }
@@ -100,12 +99,9 @@ public class DecorationBlockFactory
         return base;
     }
 
-    public DecorationBlockFactory register()
+    public DecorationBlockFactory register(DeferredRegister<Block> blockRegister, DeferredRegister<Item> itemRegister)
     {
-        DeferredRegister<Block> bR = DeferredRegister.create(this.modid, Registry.BLOCK_REGISTRY);
-        DeferredRegister<Item> iR = DeferredRegister.create(this.modid, Registry.ITEM_REGISTRY);
-
-        for(Type type : types)
+        for(DecorationBlockFactory.Type type : types)
         {
             switch (type)
             {
@@ -121,23 +117,25 @@ public class DecorationBlockFactory
             }
         }
 
-        for(Type key : blocks.keySet())
+        for(DecorationBlockFactory.Type key : blocks.keySet())
         {
             Supplier<Block> bl = blocks.get(key);
-            bR.register(key.make(this.modid, name), bl);
-            iR.register(key.make(this.modid, name), ()->new BlockItem(bl.get(), blockItemProperties.get()));
+
+            ResourceLocation id = key.make(this.modid, name);
+
+            RegistrySupplier<Block> regBlock = blockRegister.register(id, bl);
+            itemRegister.register(id, ()->new BlockItem(regBlock.get(), blockItemProperties.get()));
 
             if(callback != null)
             {
                 callback.accept(bl);
             }
         }
-        bR.register();
-        iR.register();
 
         REGISTERED_FACTORIES.add(this);
         return this;
     }
+
     public enum Type
     {
         SLAB("slab"), STAIR("stairs"), WALL("wall");
