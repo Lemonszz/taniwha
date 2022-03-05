@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.apache.commons.compress.utils.Lists;
+import party.lemons.taniwha.block.types.TSlabBlock;
 import party.lemons.taniwha.block.types.TStairBlock;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class DecorationBlockFactory
 {
     public static final List<DecorationBlockFactory> REGISTERED_FACTORIES = Lists.newArrayList();
 
+    private final List<Type> types = Lists.newArrayList();
     private final Map<Type, Supplier<Block>> blocks = Maps.newHashMap();
     private final String name;
     private final BlockBehaviour.Properties settings;
@@ -51,19 +53,19 @@ public class DecorationBlockFactory
 
     public DecorationBlockFactory slab()
     {
-        set(Type.SLAB, ()->new SlabBlock(settings));
+        types.add(Type.SLAB);
         return this;
     }
 
     public DecorationBlockFactory stair()
     {
-        set(Type.STAIR, ()->new TStairBlock(base.get().defaultBlockState(), settings));
+        types.add(Type.STAIR);
         return this;
     }
 
     public DecorationBlockFactory wall()
     {
-        set(Type.WALL, ()->new WallBlock(settings));
+        types.add(Type.WALL);
         return this;
     }
 
@@ -102,6 +104,22 @@ public class DecorationBlockFactory
     {
         DeferredRegister<Block> bR = DeferredRegister.create(this.modid, Registry.BLOCK_REGISTRY);
         DeferredRegister<Item> iR = DeferredRegister.create(this.modid, Registry.ITEM_REGISTRY);
+
+        for(Type type : types)
+        {
+            switch (type)
+            {
+                case SLAB -> {
+                    set(type, ()->new TSlabBlock(this.settings));
+                }
+                case STAIR -> {
+                    set(type, ()->new TStairBlock(base.get().defaultBlockState(), this.settings));
+                }
+                case WALL -> {
+                    set(type, ()->new WallBlock(this.settings));
+                }
+            }
+        }
 
         for(Type key : blocks.keySet())
         {
