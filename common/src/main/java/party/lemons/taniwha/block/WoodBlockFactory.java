@@ -206,6 +206,7 @@ public class WoodBlockFactory
             ResourceLocation id = key.make(this.modid, name);
 
             RegistrySupplier<Block> regBlock = blockRegister.register(id, bl);
+            set(key, regBlock);
             if(key.hasBlockItem)
             {
                 if(regBlock.get() instanceof BlockWithItem bwi)
@@ -226,7 +227,8 @@ public class WoodBlockFactory
 
         for(Type key : items.keySet())
         {
-            itemRegister.register(key.make(modid, name), items.get(key));
+            RegistrySupplier<Item> item = itemRegister.register(key.make(modid, name), items.get(key));
+            setItem(key, item);
         }
 
         if(types.contains(Type.SIGN))
