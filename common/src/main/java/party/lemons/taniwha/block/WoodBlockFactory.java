@@ -190,15 +190,6 @@ public class WoodBlockFactory
             }
         }
 
-        for(Type type : itemTypes)
-        {
-            switch (type)
-            {
-                case SIGN -> setItem(Type.SIGN, ()->new SignItem(properties(), getBlock(Type.SIGN).get(), getBlock(Type.SIGN_WALL).get()));
-                case BOAT -> setItem(Type.BOAT, ()->new TBoatItem(boatType, properties().stacksTo(1)));
-            }
-        }
-
         for(Type key : blocks.keySet())
         {
             Supplier<Block> bl = blocks.get(key);
@@ -209,11 +200,11 @@ public class WoodBlockFactory
             set(key, regBlock);
             if(key.hasBlockItem)
             {
-                if(regBlock.get() instanceof BlockWithItem bwi)
-                {
-                    itemRegister.register(key.make(modid, name), ()->bwi.makeItem(tab));
-                }
-                else
+            //    if(regBlock.get() instanceof BlockWithItem bwi)
+           //    {
+           //         itemRegister.register(key.make(modid, name), ()->bwi.makeItem(tab));
+           //     }
+            //    else
                 {
                     itemRegister.register(key.make(modid, name), ()->new BlockItem(regBlock.get(), properties()));
                 }
@@ -222,6 +213,15 @@ public class WoodBlockFactory
             if(callback != null)
             {
                 callback.accept(regBlock);
+            }
+        }
+
+        for(Type type : itemTypes)
+        {
+            switch (type)
+            {
+                case SIGN -> setItem(Type.SIGN, ()->new SignItem(properties(), getBlock(Type.SIGN).get(), getBlock(Type.SIGN_WALL).get()));
+                case BOAT -> setItem(Type.BOAT, ()->new TBoatItem(boatType, properties().stacksTo(1)));
             }
         }
 
