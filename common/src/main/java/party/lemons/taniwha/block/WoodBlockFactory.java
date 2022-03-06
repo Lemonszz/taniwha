@@ -231,8 +231,8 @@ public class WoodBlockFactory
             setItem(key, item);
         }
 
-        if(types.contains(Type.SIGN))
-            BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, blocks.get(Type.SIGN).get(), blocks.get(Type.SIGN_WALL).get());
+       // if(types.contains(Type.SIGN))
+       //     BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, blocks.get(Type.SIGN).get(), blocks.get(Type.SIGN_WALL).get());
 
         return this;
     }
