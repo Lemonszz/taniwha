@@ -8,15 +8,11 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 import party.lemons.taniwha.Taniwha;
 import party.lemons.taniwha.block.modifier.BlockModifier;
-import party.lemons.taniwha.block.modifier.CompostModifier;
 import party.lemons.taniwha.block.rtype.RType;
 
 import java.util.List;
@@ -25,17 +21,11 @@ import java.util.Map;
 public class TBlocks {
 
     public static final Multimap<Block, BlockModifier> MODIFIERS = ArrayListMultimap.create();
-    public static final List<CompostModifier.CompostValue> COMPOSTABLES = Lists.newArrayList();
     public static final Map<Block, RType> RTYPES = Maps.newHashMap();
 
     public static void initModifiers()
     {
         MODIFIERS.forEach((b, a)->a.accept(b));
-    }
-
-    public static void initCompostables()
-    {
-        COMPOSTABLES.forEach((p)-> ComposterBlock.COMPOSTABLES.put(p.block(), p.chance()));
     }
 
     public static void initClient()
