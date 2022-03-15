@@ -15,7 +15,8 @@
     "advancement.InventoryChangeTriggerMixin",
     "entity.golem.CarvedPumpkinBlockMixin",
     "entity.golem.DispenserBlockMixin",
-    "block.noteblock.NoteBlockMixin"
+    "block.noteblock.NoteBlockMixin",
+    "level.data.ServerLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
