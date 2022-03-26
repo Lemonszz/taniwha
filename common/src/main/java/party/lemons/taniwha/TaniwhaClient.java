@@ -10,9 +10,9 @@ public class TaniwhaClient
 {
     public static void init()
     {
+        TEntities.registerModels();
         LifecycleEvent.SETUP.register(()->{
             TBlocks.initClient();
-            TEntities.registerModels();
         });
     }
 
