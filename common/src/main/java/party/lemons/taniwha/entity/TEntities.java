@@ -42,7 +42,6 @@ public class TEntities {
 
     public static void registerModels()
     {
-        BoatTypes.registerModelLayers();
         EntityRendererRegistry.register(T_BOAT, TBoatRender::new);
     }
 }

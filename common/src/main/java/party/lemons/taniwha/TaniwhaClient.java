@@ -18,7 +18,6 @@ public class TaniwhaClient
 
     public static void registerModels()
     {
-    //    BoatTypes.registerModelLayers();
-    //    TEntities.registerModels();
+        BoatTypes.registerModelLayers();
     }
 }
