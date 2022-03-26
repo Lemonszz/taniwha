@@ -18,6 +18,6 @@ public class TaniwhaClient
 
     public static void registerModels()
     {
-        BoatTypes.registerModelLayers();
+        //BoatTypes.registerModelLayers();
     }
 }

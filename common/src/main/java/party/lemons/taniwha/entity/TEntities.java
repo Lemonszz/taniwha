@@ -8,6 +8,8 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -42,6 +44,12 @@ public class TEntities {
 
     public static void registerModels()
     {
-        EntityRendererRegistry.register(T_BOAT, TBoatRender::new);
+        EntityRendererRegistry.register(T_BOAT,TEntities::boatLayerInit);
+    }
+
+    private static TBoatRender boatLayerInit(EntityRendererProvider.Context ctx)
+    {
+        BoatTypes.registerModelLayers();
+        return new TBoatRender(ctx);
     }
 }
