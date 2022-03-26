@@ -6,10 +6,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -23,12 +25,14 @@ public class TBoatRender extends EntityRenderer<TBoat>
 {
     private final Map<BoatType, Pair<ResourceLocation, BoatModel>> boatResources = Maps.newHashMap();
     private final Map<BoatType, ResourceLocation> textures = Maps.newHashMap();
+    private final EntityRendererProvider.Context ctx;
 
     public TBoatRender(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.8F;
 
+        this.ctx = context;
         for(BoatType boatType : BoatTypes.TYPES)
         {
             boatResources.put(boatType, Pair.of(boatType.getTexture(), new BoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, boatType.getModelLocation()), "main")))));
@@ -62,6 +66,11 @@ public class TBoatRender extends EntityRenderer<TBoat>
 
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+        if(!boatResources.containsKey(boat.getNewBoatType()))
+        {
+            boatResources.put(boat.getNewBoatType(), Pair.of(boat.getNewBoatType().getTexture(), new BoatModel(ctx.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, boat.getNewBoatType().getModelLocation()), "main")))));
+        }
+
         Pair<ResourceLocation, BoatModel> data = boatResources.get(boat.getNewBoatType());
         BoatModel model = data.getSecond();
         ResourceLocation texture = data.getFirst();
