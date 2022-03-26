@@ -2,6 +2,7 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.block.BlockProperties;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
@@ -20,6 +22,7 @@ import party.lemons.taniwha.block.modifier.StrippableModifier;
 import party.lemons.taniwha.block.rtype.RType;
 import party.lemons.taniwha.block.types.*;
 import party.lemons.taniwha.entity.boat.BoatType;
+import party.lemons.taniwha.hooks.block.entity.BlockEntityHooks;
 import party.lemons.taniwha.hooks.sign.SignTypeHooks;
 import party.lemons.taniwha.item.types.TBoatItem;
 
@@ -56,7 +59,7 @@ public class WoodBlockFactory
         this.callback = callback;
         this.tab = group;
 
-        woodType = SignTypeHooks.createWoodType(name);
+        woodType = SignTypeHooks.register(name);
         types.add(Type.LOG);
         types.add(Type.STRIPPED_LOG);
         types.add(Type.PLANK);
@@ -190,9 +193,11 @@ public class WoodBlockFactory
             }
         }
 
-       // if(types.contains(Type.SIGN))
-       //     BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, blocks.get(Type.SIGN).get(), blocks.get(Type.SIGN_WALL).get());
-
+        if(types.contains(Type.SIGN)) {
+            LifecycleEvent.SETUP.register(()->{
+                BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, blocks.get(Type.SIGN).get(), blocks.get(Type.SIGN_WALL).get());
+            });
+        }
         return this;
     }
 

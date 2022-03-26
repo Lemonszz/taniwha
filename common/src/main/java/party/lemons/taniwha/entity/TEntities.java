@@ -38,10 +38,6 @@ public class TEntities {
     public static void init()
     {
         ENTITIES.register();
-
-        if (Platform.getEnvironment() == Env.CLIENT) {
-            registerModels();
-        }
     }
 
     public static void registerModels()
