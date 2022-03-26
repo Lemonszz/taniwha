@@ -1,5 +1,6 @@
 package party.lemons.taniwha.block;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.apache.commons.compress.utils.Lists;
 import party.lemons.taniwha.block.types.TSlabBlock;
 import party.lemons.taniwha.block.types.TStairBlock;
 
