@@ -2,7 +2,6 @@ package party.lemons.taniwha;
 
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import party.lemons.taniwha.block.TBlocks;
@@ -12,13 +11,10 @@ import party.lemons.taniwha.data.CompostReloadListener;
 import party.lemons.taniwha.entity.TEntities;
 import party.lemons.taniwha.entity.golem.GolemHandler;
 import party.lemons.taniwha.item.TItems;
-import party.lemons.taniwha.level.LevelData;
-import party.lemons.taniwha.level.LevelDataManager;
 
 public class Taniwha
 {
     public static final TaniwhaConfig CONFIG = new TaniwhaConfig();
-
 
     public static void init()
     {

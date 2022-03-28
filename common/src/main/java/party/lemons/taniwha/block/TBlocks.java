@@ -25,7 +25,7 @@ public class TBlocks {
 
     public static void initModifiers()
     {
-        MODIFIERS.forEach((b, a)->a.accept(b));
+    //    MODIFIERS.forEach((b, a)->a.accept(b));
     }
 
     public static void initClient()
