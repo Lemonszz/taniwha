@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.block.types.TSlabBlock;
 import party.lemons.taniwha.block.types.TStairBlock;
 
@@ -124,6 +125,8 @@ public class DecorationBlockFactory
             ResourceLocation id = key.make(this.modid, name);
 
             RegistrySupplier<Block> regBlock = blockRegister.register(id, bl);
+            BlockWithModifiers.doModifiers(regBlock);
+
             itemRegister.register(id, ()->new BlockItem(regBlock.get(), blockItemProperties.get()));
 
             if(callback != null)

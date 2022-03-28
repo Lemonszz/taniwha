@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
+import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.block.modifier.FlammableModifier;
 import party.lemons.taniwha.block.modifier.RTypeModifier;
 import party.lemons.taniwha.block.modifier.StrippableModifier;
@@ -172,6 +173,7 @@ public class WoodBlockFactory
             if (blockSupplier != null) {
                 ResourceLocation id = type.make(this.modid, name);
                 RegistrySupplier<Block> regBlock = blockRegister.register(id, blockSupplier);
+                BlockWithModifiers.doModifiers(regBlock);
                 set(type, regBlock);
 
                 if (type.hasBlockItem) {
