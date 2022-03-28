@@ -1,5 +1,6 @@
 package party.lemons.taniwha.block.modifier;
 
+import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import net.minecraft.world.level.block.Block;
@@ -18,7 +19,9 @@ public record RTypeModifier(RType type) implements BlockModifier {
         EnvExecutor.runInEnv(Env.CLIENT, () -> () ->
         {
             if (type != null) {
-                TBlocks.RTYPES.put(block, type);
+                EnvExecutor.runInEnv(Env.CLIENT, () -> () ->
+                        RenderTypeRegistry.register(type.getAsRenderType(), block));
+               // TBlocks.RTYPES.put(block, type);
             }
         });
     }
