@@ -16,7 +16,8 @@
     "entity.golem.CarvedPumpkinBlockMixin",
     "entity.golem.DispenserBlockMixin",
     "block.noteblock.NoteBlockMixin",
-    "level.data.ServerLevelMixin"
+    "level.data.ServerLevelMixin",
+    "item.AxeItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

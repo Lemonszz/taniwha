@@ -35,10 +35,6 @@ public class AxeItemMixin
             StrippableHooks.insertTo(newMap);
 
             STRIPPABLES = newMap;
-
-
         }
-
-        return Optional.ofNullable(STRIPPABLES.get(blockState.getBlock())).map(block -> (BlockState)block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, blockState.getValue(RotatedPillarBlock.AXIS)));
     }
 }
