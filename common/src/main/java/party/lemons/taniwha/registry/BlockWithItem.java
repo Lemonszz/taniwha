@@ -1,6 +1,5 @@
 package party.lemons.taniwha.registry;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -27,6 +26,6 @@ public interface BlockWithItem
 
     default void registerItem(ResourceLocation id, CreativeModeTab group)
     {
-        RegistryHelper.register(TItems.ITEMS, id, ()->makeItem(group));
+        RegistryHelper.register(TItems.TITEM_REGISTER, id, ()->makeItem(group));
     }
 }

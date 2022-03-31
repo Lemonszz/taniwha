@@ -1,6 +1,5 @@
 package party.lemons.taniwha.block.modifier;
 
-import dev.architectury.hooks.item.tool.AxeItemHooks;
 import net.minecraft.world.level.block.Block;
 import party.lemons.taniwha.hooks.block.StrippableHooks;
 

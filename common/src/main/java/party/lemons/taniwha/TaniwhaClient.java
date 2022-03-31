@@ -15,10 +15,4 @@ public class TaniwhaClient
             TBlocks.initClient();
         });
     }
-
-    public static void registerModels()
-    {
-    //    BoatTypes.registerModelLayers();
-    //    TEntities.registerModels();
-    }
 }

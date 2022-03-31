@@ -25,6 +25,7 @@ import party.lemons.taniwha.block.types.*;
 import party.lemons.taniwha.entity.boat.BoatType;
 import party.lemons.taniwha.hooks.block.entity.BlockEntityHooks;
 import party.lemons.taniwha.hooks.sign.SignTypeHooks;
+import party.lemons.taniwha.item.TItems;
 import party.lemons.taniwha.item.types.TBoatItem;
 
 import java.util.List;
@@ -172,12 +173,12 @@ public class WoodBlockFactory
 
             if (blockSupplier != null) {
                 ResourceLocation id = type.make(this.modid, name);
-                RegistrySupplier<Block> regBlock = blockRegister.register(id, blockSupplier);
-                BlockWithModifiers.doModifiers(regBlock);
+
+                RegistrySupplier<Block> regBlock = TBlocks.registerBlock(blockRegister, id, blockSupplier);
                 set(type, regBlock);
 
                 if (type.hasBlockItem) {
-                    itemRegister.register(id, () -> new BlockItem(regBlock.get(), properties()));
+                    TItems.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), properties()));
                 }
 
                 if (callback != null) {

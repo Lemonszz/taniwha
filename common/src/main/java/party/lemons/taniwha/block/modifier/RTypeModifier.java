@@ -21,7 +21,6 @@ public record RTypeModifier(RType type) implements BlockModifier {
             if (type != null) {
                 EnvExecutor.runInEnv(Env.CLIENT, () -> () ->
                         RenderTypeRegistry.register(type.getAsRenderType(), block));
-               // TBlocks.RTYPES.put(block, type);
             }
         });
     }
