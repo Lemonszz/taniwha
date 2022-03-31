@@ -24,8 +24,6 @@ public class Taniwha
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new CompostReloadListener());
 
         LifecycleEvent.SETUP.register(()->{
-            TItems.runModifiers();
-            TBlocks.initModifiers();
             GolemHandler.init();
         });
     }
