@@ -56,29 +56,6 @@ public final class RegistryHelper
         void callback(DeferredRegister<T> register, ResourceLocation id, Supplier<T> registryObject);
     }
 
-    public static class BlockWithItemCallback implements RegistryCallback<Block>
-    {
-        private final CreativeModeTab group;
-
-        public BlockWithItemCallback(CreativeModeTab group)
-        {
-            this.group = group;
-        }
-
-        @Override
-        public void callback(DeferredRegister<Block> register, ResourceLocation id, Supplier<Block> registryObject) {
-            Block bl = registryObject.get();
-
-            if(bl instanceof BlockWithItem bi)
-            {
-                BlockWithItem info = (BlockWithItem) bl;
-                if(!info.hasItem()) return;
-
-                info.registerItem(id, group);
-            }
-        }
-    }
-
     private RegistryHelper()
     {
     }
