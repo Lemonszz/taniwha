@@ -39,7 +39,8 @@ import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.NotNull;
-import party.lemons.taniwha.block.TBlocks;
+import party.lemons.taniwha.block.BlockHelper;
+import party.lemons.taniwha.block.TBlockTags;
 import party.lemons.taniwha.hooks.block.DispenserBlockHooks;
 
 import java.util.List;
@@ -53,10 +54,10 @@ public class GolemHandler
     private static final List<Item> registeredDispenserBehaviour = Lists.newArrayList();
     private static final Map<Item, DispenseItemBehavior> dispenseBehaviourOverride = Maps.newHashMap();
 
-    public static final Predicate<BlockState> STANDARD_HEADS = st->st.is(TBlocks.GOLEM_HEADS);  //Standard head (pumpkin) BS predicate
+    public static final Predicate<BlockState> STANDARD_HEADS = st->st.is(TBlockTags.GOLEM_HEADS);  //Standard head (pumpkin) BS predicate
 
     //TODO: this seems fucky
-    public static final Predicate<TagKey<Block>> IS_STANDARD_GOLEM_HEAD_TAG = t->t.equals(TBlocks.GOLEM_HEADS); //Predicate to check if a tag is the standard golem head tag
+    public static final Predicate<TagKey<Block>> IS_STANDARD_GOLEM_HEAD_TAG = t->t.equals(TBlockTags.GOLEM_HEADS); //Predicate to check if a tag is the standard golem head tag
 
     /***
      * Registers a pattern for golems
@@ -102,7 +103,7 @@ public class GolemHandler
         //When tags are reloaded, we need to reset the dispenser behaviour.
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new GolemReloadListener());
 
-        addGolemHeadTag(TBlocks.GOLEM_HEADS); //Standard head tags
+        addGolemHeadTag(TBlockTags.GOLEM_HEADS); //Standard head tags
 
         registerVanillaPatterns();  //Vanilla patterns (Iron/Snow)
         registerVanillaBehaviour(); //Vanilla pumpkin behaviour (Create golem and wear pumpkin)

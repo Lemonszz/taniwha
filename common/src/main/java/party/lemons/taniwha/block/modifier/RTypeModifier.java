@@ -4,7 +4,6 @@ import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import net.minecraft.world.level.block.Block;
-import party.lemons.taniwha.block.TBlocks;
 import party.lemons.taniwha.block.rtype.RType;
 
 public record RTypeModifier(RType type) implements BlockModifier {

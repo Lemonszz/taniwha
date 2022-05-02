@@ -5,18 +5,23 @@ import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.registry.BlockWithItem;
+import party.lemons.taniwha.registry.ModifierContainer;
 
 import java.util.Random;
 import java.util.function.Supplier;
 
 public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBlock, BlockWithItem, BlockWithModifiers<TMushroomPlantBlock> {
+
+    private ModifierContainer<Block> modifierContainer;
 
     private final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> giantShroomFeature;
 
@@ -51,9 +56,12 @@ public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBl
 
     @Override
     public TMushroomPlantBlock modifiers(BlockModifier... modifiers) {
-        BlockWithModifiers.init(this, modifiers);
-
+        modifierContainer = new ModifierContainer<>(this, modifiers);
         return this;
     }
 
+    @Override
+    public @Nullable ModifierContainer<Block> getModifierContainer() {
+        return modifierContainer;
+    }
 }

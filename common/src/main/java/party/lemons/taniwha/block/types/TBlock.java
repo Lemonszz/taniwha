@@ -4,9 +4,12 @@ import net.minecraft.world.level.block.Block;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.registry.BlockWithItem;
+import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TBlock extends Block implements BlockWithItem, BlockWithModifiers<TBlock>
+public class TBlock extends Block implements BlockWithItem, BlockWithModifiers
 {
+    private ModifierContainer<Block> modifierContainer;
+
     public TBlock(Properties properties)
     {
         super(properties);
@@ -14,7 +17,12 @@ public class TBlock extends Block implements BlockWithItem, BlockWithModifiers<T
 
     @Override
     public TBlock modifiers(BlockModifier... modifiers) {
-        BlockWithModifiers.init(this, modifiers);
+        modifierContainer = new ModifierContainer<>(this, modifiers);
         return this;
+    }
+
+    @Override
+    public ModifierContainer<Block> getModifierContainer() {
+        return modifierContainer;
     }
 }

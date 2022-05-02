@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
-import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.block.modifier.FlammableModifier;
 import party.lemons.taniwha.block.modifier.RTypeModifier;
 import party.lemons.taniwha.block.modifier.StrippableModifier;
@@ -25,7 +24,7 @@ import party.lemons.taniwha.block.types.*;
 import party.lemons.taniwha.entity.boat.BoatType;
 import party.lemons.taniwha.hooks.block.entity.BlockEntityHooks;
 import party.lemons.taniwha.hooks.sign.SignTypeHooks;
-import party.lemons.taniwha.item.TItems;
+import party.lemons.taniwha.item.ItemHelper;
 import party.lemons.taniwha.item.types.TBoatItem;
 
 import java.util.List;
@@ -174,11 +173,11 @@ public class WoodBlockFactory
             if (blockSupplier != null) {
                 ResourceLocation id = type.make(this.modid, name);
 
-                RegistrySupplier<Block> regBlock = TBlocks.registerBlock(blockRegister, id, blockSupplier);
+                RegistrySupplier<Block> regBlock = party.lemons.taniwha.block.BlockHelper.registerBlock(blockRegister, id, blockSupplier);
                 set(type, regBlock);
 
                 if (type.hasBlockItem) {
-                    TItems.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), properties()));
+                    ItemHelper.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), properties()));
                 }
 
                 if (callback != null) {

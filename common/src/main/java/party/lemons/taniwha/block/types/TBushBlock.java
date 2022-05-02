@@ -1,30 +1,28 @@
 package party.lemons.taniwha.block.types;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.TallFlowerBlock;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.block.BushBlock;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TTallFlowerBlock extends TallFlowerBlock implements BlockWithItem, BlockWithModifiers<TTallFlowerBlock>
+public class TBushBlock extends BushBlock implements BlockWithItem, BlockWithModifiers<TBushBlock>
 {
     private ModifierContainer<Block> modifierContainer;
 
-    public TTallFlowerBlock(Properties properties)
-    {
+    public TBushBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public TTallFlowerBlock modifiers(BlockModifier... modifiers) {
+    public TBushBlock modifiers(BlockModifier... modifiers) {
         modifierContainer = new ModifierContainer<>(this, modifiers);
         return this;
     }
 
     @Override
-    public @Nullable ModifierContainer<Block> getModifierContainer() {
+    public ModifierContainer<Block> getModifierContainer() {
         return modifierContainer;
     }
 }

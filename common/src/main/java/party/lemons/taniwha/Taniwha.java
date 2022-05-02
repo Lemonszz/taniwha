@@ -4,13 +4,12 @@ import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import party.lemons.taniwha.block.TBlocks;
+import party.lemons.taniwha.block.TBlockTags;
 import party.lemons.taniwha.config.TaniwhaConfig;
 import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.data.CompostReloadListener;
 import party.lemons.taniwha.entity.TEntities;
 import party.lemons.taniwha.entity.golem.GolemHandler;
-import party.lemons.taniwha.item.TItems;
 
 public class Taniwha
 {
@@ -19,7 +18,7 @@ public class Taniwha
     public static void init()
     {
         TEntities.init();
-        TItems.init();
+        TBlockTags.init();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new BrewingFuelReloadListener());
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new CompostReloadListener());
 
