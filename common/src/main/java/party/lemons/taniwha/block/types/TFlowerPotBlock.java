@@ -14,8 +14,6 @@ public class TFlowerPotBlock extends FlowerPotBlock implements BlockWithModifier
 
     public TFlowerPotBlock(Block block, Properties properties) {
         super(block, properties);
-
-        modifiers(RTypeModifier.CUTOUT);
     }
 
     @Override
