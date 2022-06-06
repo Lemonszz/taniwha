@@ -17,6 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import party.lemons.taniwha.entity.boat.BoatType;
 import party.lemons.taniwha.entity.boat.TBoat;
+import party.lemons.taniwha.entity.boat.TChestBoat;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -26,11 +27,13 @@ public class TBoatItem extends TItem{
 
     private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
     private final Supplier<BoatType> type;
+    private final boolean hasChest;
 
-    public TBoatItem(Supplier<BoatType> boatType, Properties properties) {
+    public TBoatItem(Supplier<BoatType> boatType, boolean hasChest, Properties properties) {
         super(properties);
 
         this.type = boatType;
+        this.hasChest = hasChest;
     }
 
     @Override
@@ -81,7 +84,7 @@ public class TBoatItem extends TItem{
 
     public TBoat createBoat(Level world, Vec3 pos, float yaw)
     {
-        TBoat boatEntity = new TBoat(world, pos.x, pos.y, pos.z);
+        TBoat boatEntity = hasChest ? new TChestBoat(world, pos.x, pos.y, pos.z) : new TBoat(world, pos.x, pos.y, pos.z);
         boatEntity.setBoatType(type.get());
         boatEntity.setYRot(yaw);
         return boatEntity;

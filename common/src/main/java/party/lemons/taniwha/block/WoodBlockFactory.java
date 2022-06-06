@@ -227,7 +227,8 @@ public class WoodBlockFactory
         SIGN("", "sign", false, (f)->()->new StandingSignBlock(BlockProperties.of(Material.WOOD).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(BlockProperties.of(Material.WOOD).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_ITEM("", "sign", false, null, (f)->()->new SignItem(f.properties().stacksTo(16), f.getBlock(Type.SIGN).get(), f.getBlock(Type.SIGN_WALL).get())),
-        BOAT("", "boat", false, null, (f)->()->new TBoatItem(f.boatType, f.properties().stacksTo(1)));
+        BOAT("", "boat", false, null, (f)->()->new TBoatItem(f.boatType, false, f.properties().stacksTo(1)));
+        CHEST_BOAT("", "chest_boat", false, null, (f)->()->new TBoatItem(f.boatType, true, f.properties().stacksTo(1)));
 
         private final String postfix;
         private final String prefix;
