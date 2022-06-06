@@ -3,6 +3,7 @@ package party.lemons.taniwha.block.types;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,7 +36,7 @@ public class TSpreadableBlock extends TBlock
     }
 
     @Override
-    public void randomTick(@NotNull BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Random random)
+    public void randomTick(@NotNull BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource random)
     {
         if (!canBeGrass(blockState, serverLevel, blockPos))
         {

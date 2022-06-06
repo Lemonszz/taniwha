@@ -2,6 +2,7 @@ package party.lemons.taniwha.block.types;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -22,12 +23,12 @@ public class TRootedDirtBlock extends TBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isBonemealSuccess(Level level, Random random, BlockPos blockPos, BlockState blockState) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos blockPos, BlockState blockState) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel serverLevel, Random random, BlockPos blockPos, BlockState blockState) {
+    public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos blockPos, BlockState blockState) {
         serverLevel.setBlockAndUpdate(blockPos.below(), Blocks.HANGING_ROOTS.defaultBlockState());
     }
 }

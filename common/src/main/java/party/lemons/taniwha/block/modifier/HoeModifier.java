@@ -17,6 +17,6 @@ public class HoeModifier implements BlockModifier{
 
     @Override
     public void accept(Block block) {
-        HoeItemHooks.addTillable(block, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(tilledBlock.get().defaultBlockState()));
+        HoeItemHooks.addTillable(block, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(tilledBlock.get().defaultBlockState()), (ctx)->tilledBlock.get().defaultBlockState());
     }
 }

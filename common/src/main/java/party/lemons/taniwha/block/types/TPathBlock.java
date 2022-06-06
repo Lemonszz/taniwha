@@ -3,6 +3,7 @@ package party.lemons.taniwha.block.types;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -53,7 +54,7 @@ public class TPathBlock extends TBlock
     }
 
     @Override
-    public void tick(BlockState blockState, ServerLevel level, BlockPos blockPos, Random random) {
+    public void tick(BlockState blockState, ServerLevel level, BlockPos blockPos, RandomSource random) {
         level.setBlockAndUpdate(blockPos, FarmBlock.pushEntitiesUp(blockState, dirtBlock.get().defaultBlockState(), level, blockPos));
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
@@ -34,8 +35,13 @@ public abstract class ServerLevelMixin extends Level implements LevelDataHolder 
 
     @Unique private LevelDataManager dataManager;
 
+    protected ServerLevelMixin(WritableLevelData writableLevelData, ResourceKey<Level> resourceKey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean bl, boolean bl2, long l, int i)
+    {
+        super(writableLevelData, resourceKey, holder, supplier, bl, bl2, l, i);
+    }
+
     @Inject(at = @At("TAIL"), method = "<init>")
-    private void onInit(MinecraftServer minecraftServer, Executor executor, LevelStorageSource.LevelStorageAccess arg2, ServerLevelData arg22, ResourceKey<Level> arg3, Holder<DimensionType> arg4, ChunkProgressListener arg5, ChunkGenerator arg6, boolean bl, long l, List<CustomSpawner> list, boolean bl2, CallbackInfo cbi)
+    private void onInit(MinecraftServer minecraftServer, Executor executor, LevelStorageSource.LevelStorageAccess levelStorageAccess, ServerLevelData serverLevelData, ResourceKey<Level> resourceKey, LevelStem levelStem, ChunkProgressListener chunkProgressListener, boolean bl, long l, List<CustomSpawner> list, boolean bl2, CallbackInfo cbi)
     {
         dataManager = this.getDataStorage().computeIfAbsent(tag -> new LevelDataManager(((ServerLevel) (Object)this),tag), () -> new LevelDataManager(((ServerLevel) (Object)this),null), LevelDataManager.getFileId(this.dimensionTypeRegistration()));
 
@@ -58,7 +64,4 @@ public abstract class ServerLevelMixin extends Level implements LevelDataHolder 
         return dataManager;
     }
 
-    protected ServerLevelMixin(WritableLevelData writableLevelData, ResourceKey<Level> resourceKey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean bl, boolean bl2, long l) {
-        super(writableLevelData, resourceKey, holder, supplier, bl, bl2, l);
-    }
 }

@@ -9,22 +9,32 @@ public class BoatType
 {
     public final ResourceLocation id;
     public final Supplier<ItemLike> item;
+    public final Supplier<ItemLike> chestItem;
 
-    public BoatType(ResourceLocation id, Supplier<ItemLike> item)
+
+    public BoatType(ResourceLocation id, Supplier<ItemLike> item, Supplier<ItemLike> chestBoatItem)
     {
         this.id = id;
         this.item = item;
+        this.chestItem = chestBoatItem;
 
         BoatTypes.TYPES.add(this);
     }
 
-    public ResourceLocation getTexture()
+    public ResourceLocation getTexture(boolean hasChest)
     {
+        if(hasChest)
+            return new ResourceLocation(id.getNamespace(), "textures/entity/boat/" + id.getPath() + "_chest.png");
         return new ResourceLocation(id.getNamespace(), "textures/entity/boat/" + id.getPath() + ".png");
     }
 
     public String getModelLocation()
     {
         return "boat/" + id.getPath();
+    }
+
+    public String getChestModelLocation()
+    {
+        return "chestboat/" + id.getPath();
     }
 }

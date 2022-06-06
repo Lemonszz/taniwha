@@ -26,16 +26,18 @@ public class TBoatRender extends EntityRenderer<TBoat>
     private final Map<BoatType, Pair<ResourceLocation, BoatModel>> boatResources = Maps.newHashMap();
     private final Map<BoatType, ResourceLocation> textures = Maps.newHashMap();
     private final EntityRendererProvider.Context ctx;
+    private final boolean chest;
 
-    public TBoatRender(EntityRendererProvider.Context context)
+    public TBoatRender(EntityRendererProvider.Context context, boolean chest)
     {
         super(context);
         this.shadowRadius = 0.8F;
+        this.chest = chest;
 
         this.ctx = context;
         for(BoatType boatType : BoatTypes.TYPES)
         {
-            boatResources.put(boatType, Pair.of(boatType.getTexture(), new BoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, boatType.getModelLocation()), "main")))));
+            boatResources.put(boatType, Pair.of(boatType.getTexture(chest), new BoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, chest ? boatType.getChestModelLocation() : boatType.getModelLocation()), "main")), chest)));
         }
     }
 
@@ -66,10 +68,6 @@ public class TBoatRender extends EntityRenderer<TBoat>
 
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
-        if(!boatResources.containsKey(boat.getNewBoatType()))
-        {
-            boatResources.put(boat.getNewBoatType(), Pair.of(boat.getNewBoatType().getTexture(), new BoatModel(ctx.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, boat.getNewBoatType().getModelLocation()), "main")))));
-        }
 
         Pair<ResourceLocation, BoatModel> data = boatResources.get(boat.getNewBoatType());
         BoatModel model = data.getSecond();
@@ -93,7 +91,7 @@ public class TBoatRender extends EntityRenderer<TBoat>
         if(textures.containsKey(type)) return textures.get(type);
         else
         {
-            ResourceLocation texture = type.getTexture();
+            ResourceLocation texture = type.getTexture(chest);
             textures.put(type, texture);
 
             return texture;
