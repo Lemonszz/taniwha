@@ -1,0 +1,12 @@
+modLoader = "javafml"
+loaderVersion = "[33,)"
+license = "MIT"
+
+[[mods]]
+modId = "taniwhatest"
+version = "${version}"
+displayName = "Taniwha Test"
+authors = "LASER KNIGHTS"
+description = '''
+Taniwha Test
+'''

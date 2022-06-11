@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "taniwha-test",
+  "version": "${version}",
+  "name": "Taniwha Test",
+  "description": "Test Mod",
+  "authors": [
+    "LASER KNIGHTS"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "party.lemons.testmod.fabric.TaniwhaTestModFabric"
+    ]
+  }
+}
