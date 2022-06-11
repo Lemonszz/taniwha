@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import party.lemons.taniwha.item.ItemHelper;
 import party.lemons.taniwha.item.types.TItem;
 
 public class TaniwhaTestMod
@@ -18,6 +19,7 @@ public class TaniwhaTestMod
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MODID, Registry.ITEM_REGISTRY);
 	public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register(id("test_item"), ()-> new TItem(new Item.Properties().tab(TAB)));
+	public static final RegistrySupplier<Item> MODIFIER_ITEM = ItemHelper.registerItem(ITEMS, id("modifier_item"), ()->new TItem(new Item.Properties().tab(TAB)));
 
 	public static void init()
 	{
