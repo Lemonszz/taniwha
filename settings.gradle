@@ -11,8 +11,4 @@ include("common")
 include("fabric")
 include("forge")
 
-include("testmod-common")
-include("testmod-fabric")
-include("testmod-forge")
-
 rootProject.name = "taniwha"
