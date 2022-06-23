@@ -16,6 +16,7 @@ import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
+import party.lemons.taniwha.util.RegistryAccessSupplier;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -24,12 +25,12 @@ public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBl
 
     private ModifierContainer<Block> modifierContainer;
 
-    private final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> giantShroomFeature;
+    private final RegistryAccessSupplier<ConfiguredFeature<?, ?>> giantShroomFeature;
 
-    public TMushroomPlantBlock(Supplier<Holder<? extends ConfiguredFeature<?, ?>>> giantShroomFeature, Properties properties) {
-        super(properties, giantShroomFeature);
+    public TMushroomPlantBlock(RegistryAccessSupplier<ConfiguredFeature<?, ?>> giantFeature, Properties properties) {
+        super(properties, null);
 
-        this.giantShroomFeature = giantShroomFeature;
+        this.giantShroomFeature = giantFeature;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBl
             return false;
 
         serverLevel.removeBlock(blockPos, false);
-        if (this.giantShroomFeature.get().value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, blockPos)) {
+        if (this.giantShroomFeature.get(serverLevel.registryAccess()).value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, blockPos)) {
             return true;
         }
         serverLevel.setBlock(blockPos, blockState, 3);
