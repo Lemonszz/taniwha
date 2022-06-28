@@ -6,18 +6,19 @@
     "totem.client.ClientPacketListenerMixin"
   ],
   "mixins": [
+    "advancement.InventoryChangeTriggerMixin",
+    "block.FireBlockInvoker",
+    "block.entity.BlockEntityTypeMixin",
     "block.entity.brewingstand.BrewingStandBlockEntityMixin",
     "block.entity.brewingstand.BrewingStandFuelSlotMixin",
-    "block.entity.BlockEntityTypeMixin",
-    "block.FireBlockInvoker",
-    "totem.LivingEntityMixin",
-    "sign.WoodTypeMixin",
-    "advancement.InventoryChangeTriggerMixin",
+    "block.noteblock.NoteBlockMixin",
     "entity.golem.CarvedPumpkinBlockMixin",
     "entity.golem.DispenserBlockMixin",
-    "block.noteblock.NoteBlockMixin",
+    "item.AxeItemMixin",
     "level.data.ServerLevelMixin",
-    "item.AxeItemMixin"
+    "sign.WoodTypeMixin",
+    "spawn.SpawnPlacementsInvoker",
+    "totem.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

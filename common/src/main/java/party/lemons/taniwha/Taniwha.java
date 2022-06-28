@@ -10,6 +10,7 @@ import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.data.CompostReloadListener;
 import party.lemons.taniwha.entity.TEntities;
 import party.lemons.taniwha.entity.golem.GolemHandler;
+import party.lemons.taniwha.hooks.entity.TSpawnPlacement;
 
 public class Taniwha
 {
@@ -24,6 +25,7 @@ public class Taniwha
 
         LifecycleEvent.SETUP.register(()->{
             GolemHandler.init();
+            TSpawnPlacement.internal_Register();
         });
     }
 
