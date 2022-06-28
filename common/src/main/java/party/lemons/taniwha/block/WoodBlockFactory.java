@@ -36,8 +36,8 @@ public class WoodBlockFactory
     private final List<WoodBlockFactory.Type> types = Lists.newArrayList();
     private final List<WoodBlockFactory.Type> itemTypes = Lists.newArrayList();
 
-    private final Map<Type, Supplier<Block>> blocks = Maps.newHashMap();
-    private final Map<Type, Supplier<Item>> items = Maps.newHashMap();
+    private final Map<Type, RegistrySupplier<Block>> blocks = Maps.newHashMap();
+    private final Map<Type, RegistrySupplier<Item>> items = Maps.newHashMap();
     private final WoodType woodType;
     private final String name;
     private final BlockBehaviour.Properties properties;
@@ -145,12 +145,12 @@ public class WoodBlockFactory
         return slab().stair().fence().wood().pressure_plate().button().trapdoor().door().sign().boat(boatType);
     }
 
-    private void set(Type type, Supplier<Block> block)
+    private void set(Type type, RegistrySupplier<Block> block)
     {
         this.blocks.put(type, block);
     }
 
-    private void setItem(Type type, Supplier<Item> item)
+    private void setItem(Type type, RegistrySupplier<Item> item)
     {
         this.items.put(type, item);
     }
@@ -196,9 +196,12 @@ public class WoodBlockFactory
         }
 
         if(types.contains(Type.SIGN)) {
-            LifecycleEvent.SETUP.register(()->{
-                BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, blocks.get(Type.SIGN).get(), blocks.get(Type.SIGN_WALL).get());
-            });
+            Consumer<Block> beConsumer = (b)->{
+                BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, b);
+            };
+
+            blocks.get(Type.SIGN).listen(beConsumer);
+            blocks.get(Type.SIGN_WALL).listen(beConsumer);
         }
         return this;
     }
