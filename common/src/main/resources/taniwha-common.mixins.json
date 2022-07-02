@@ -18,7 +18,8 @@
     "level.data.ServerLevelMixin",
     "sign.WoodTypeMixin",
     "spawn.SpawnPlacementsInvoker",
-    "totem.LivingEntityMixin"
+    "totem.LivingEntityMixin",
+    "bonemeal.BoneMealItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
