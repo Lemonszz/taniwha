@@ -1,13 +1,10 @@
 package party.lemons.taniwha.level.event;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
 import party.lemons.taniwha.network.S2CLevelEvent;
 
 import java.util.function.Consumer;
@@ -15,9 +12,15 @@ import java.util.function.Consumer;
 public class LevelEvent
 {
 	private final ResourceLocation id;
-	private final FriendlyByteBuf buf;
+	private FriendlyByteBuf buf;
 	private final BlockPos position;
 	private Consumer<FriendlyByteBuf> dataWriter;
+
+	//TODO:
+	/*
+			users probably shouldnt need to touch this, all cases could be covered though a static method in LevelEvents
+			This could also autosend it, instead of requiring .send to be called
+	 */
 
 	public LevelEvent(ResourceLocation id, BlockPos position)
 	{
@@ -28,11 +31,6 @@ public class LevelEvent
 	{
 		this.id = id;
 		this.position = position;
-		buf = new FriendlyByteBuf(Unpooled.buffer());
-
-		buf.writeResourceLocation(id);
-		buf.writeBlockPos(position);
-
 		this.dataWriter = dataWriter;
 	}
 

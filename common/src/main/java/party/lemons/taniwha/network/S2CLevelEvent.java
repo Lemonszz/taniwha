@@ -30,6 +30,8 @@ public class S2CLevelEvent extends BaseS2CMessage
 	@Override
 	public void write(FriendlyByteBuf buf)
 	{
+		buf.writeResourceLocation(event.getID());
+		buf.writeBlockPos(event.getPosition());
 		event.writeAdditional(buf);
 	}
 
