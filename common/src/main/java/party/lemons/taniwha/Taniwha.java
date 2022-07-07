@@ -11,6 +11,7 @@ import party.lemons.taniwha.data.CompostReloadListener;
 import party.lemons.taniwha.entity.TEntities;
 import party.lemons.taniwha.entity.golem.GolemHandler;
 import party.lemons.taniwha.hooks.entity.TSpawnPlacement;
+import party.lemons.taniwha.network.TNetwork;
 
 public class Taniwha
 {
@@ -20,6 +21,7 @@ public class Taniwha
     {
         TEntities.init();
         TBlockTags.init();
+        TNetwork.init();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new BrewingFuelReloadListener());
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new CompostReloadListener());
 
