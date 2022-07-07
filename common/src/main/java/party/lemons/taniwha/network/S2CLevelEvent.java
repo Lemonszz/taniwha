@@ -30,19 +30,12 @@ public class S2CLevelEvent extends BaseS2CMessage
 	@Override
 	public void write(FriendlyByteBuf buf)
 	{
-		buf.writeBytes(event.getData());
+		event.writeAdditional(buf);
 	}
 
 	@Override
 	public void handle(NetworkManager.PacketContext context)
 	{
-		context.queue(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				LevelEvents.execute(event);
-			}
-		});
+		context.queue(() -> LevelEvents.execute(event));
 	}
 }

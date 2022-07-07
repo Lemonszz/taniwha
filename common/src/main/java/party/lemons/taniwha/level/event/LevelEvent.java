@@ -10,13 +10,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import party.lemons.taniwha.network.S2CLevelEvent;
 
+import java.util.function.Consumer;
+
 public class LevelEvent
 {
 	private final ResourceLocation id;
 	private final FriendlyByteBuf buf;
 	private final BlockPos position;
+	private Consumer<FriendlyByteBuf> dataWriter;
 
 	public LevelEvent(ResourceLocation id, BlockPos position)
+	{
+		this(id, position, null);
+	}
+
+	public LevelEvent(ResourceLocation id, BlockPos position, Consumer<FriendlyByteBuf> dataWriter)
 	{
 		this.id = id;
 		this.position = position;
@@ -24,6 +32,8 @@ public class LevelEvent
 
 		buf.writeResourceLocation(id);
 		buf.writeBlockPos(position);
+
+		this.dataWriter = dataWriter;
 	}
 
 	public LevelEvent(FriendlyByteBuf buf)
@@ -31,54 +41,6 @@ public class LevelEvent
 		this.id = buf.readResourceLocation();
 		this.position = buf.readBlockPos();
 		this.buf = buf;
-	}
-
-	public LevelEvent write(int val)
-	{
-		buf.writeInt(val);
-		return this;
-	}
-
-	public LevelEvent write(boolean val)
-	{
-		buf.writeBoolean(val);
-
-		return this;
-	}
-
-	public LevelEvent write(float val)
-	{
-		buf.writeFloat(val);
-
-		return this;
-	}
-
-	public LevelEvent write(ItemStack val)
-	{
-		buf.writeItem(val);
-
-		return this;
-	}
-
-	public LevelEvent write(BlockPos val)
-	{
-		buf.writeBlockPos(val);
-
-		return this;
-	}
-
-	public LevelEvent write(ResourceLocation val)
-	{
-		buf.writeResourceLocation(val);
-
-		return this;
-	}
-
-	public LevelEvent write(String val)
-	{
-		buf.writeUtf(val);
-
-		return this;
 	}
 
 	public void send(ServerLevel level)
@@ -99,5 +61,11 @@ public class LevelEvent
 	public BlockPos getPosition()
 	{
 		return position;
+	}
+
+	public void writeAdditional(FriendlyByteBuf buf)
+	{
+		if(dataWriter != null)
+			dataWriter.accept(buf);
 	}
 }
