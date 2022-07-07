@@ -5,6 +5,7 @@ import dev.architectury.networking.simple.BaseS2CMessage;
 import dev.architectury.networking.simple.MessageType;
 import net.minecraft.network.FriendlyByteBuf;
 import party.lemons.taniwha.level.event.LevelEvent;
+import party.lemons.taniwha.level.event.LevelEvents;
 
 public class S2CLevelEvent extends BaseS2CMessage
 {
@@ -35,6 +36,13 @@ public class S2CLevelEvent extends BaseS2CMessage
 	@Override
 	public void handle(NetworkManager.PacketContext context)
 	{
-
+		context.queue(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				LevelEvents.execute(event);
+			}
+		});
 	}
 }

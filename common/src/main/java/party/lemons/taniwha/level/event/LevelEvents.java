@@ -17,6 +17,13 @@ public class LevelEvents
 		return eventID;
 	}
 
+	public static void execute(LevelEvent event)
+	{
+		ResourceLocation location = event.getID();
+		BlockPos pos =  event.getPosition();
+		handlers.get(location).handle(pos, event.getData());
+	}
+
 	public interface EventHandler
 	{
 		void handle(BlockPos pos, FriendlyByteBuf buf);

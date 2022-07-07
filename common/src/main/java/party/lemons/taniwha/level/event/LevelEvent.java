@@ -47,4 +47,14 @@ public class LevelEvent
 	{
 		return buf;
 	}
+
+	public ResourceLocation getID()
+	{
+		return id;
+	}
+
+	public BlockPos getPosition()
+	{
+		return position;
+	}
 }
