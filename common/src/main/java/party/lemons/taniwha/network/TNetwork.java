@@ -8,8 +8,6 @@ public class TNetwork
 {
 	public static final SimpleNetworkManager NET = SimpleNetworkManager.create(TConstants.MOD_ID);
 
-	public static final MessageType S2C_LEVEL_EVENT = NET.registerS2C("level_event", S2CLevelEvent::new);
-
 	public static void init()
 	{
 	}
