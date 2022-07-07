@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import party.lemons.taniwha.network.S2CLevelEvent;
 
 public class LevelEvent
@@ -31,9 +33,50 @@ public class LevelEvent
 		this.buf = buf;
 	}
 
-	public LevelEvent data(ByteBuf buff)
+	public LevelEvent write(int val)
 	{
-		buf.writeBytes(buff);
+		buf.writeInt(val);
+		return this;
+	}
+
+	public LevelEvent write(boolean val)
+	{
+		buf.writeBoolean(val);
+
+		return this;
+	}
+
+	public LevelEvent write(float val)
+	{
+		buf.writeFloat(val);
+
+		return this;
+	}
+
+	public LevelEvent write(ItemStack val)
+	{
+		buf.writeItem(val);
+
+		return this;
+	}
+
+	public LevelEvent write(BlockPos val)
+	{
+		buf.writeBlockPos(val);
+
+		return this;
+	}
+
+	public LevelEvent write(ResourceLocation val)
+	{
+		buf.writeResourceLocation(val);
+
+		return this;
+	}
+
+	public LevelEvent write(String val)
+	{
+		buf.writeUtf(val);
 
 		return this;
 	}
