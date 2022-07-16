@@ -53,8 +53,6 @@ public class CompostReloadListener extends SimpleJsonResourceReloadListener
     {
         ResourceLocation location = new ResourceLocation(obj.getAsJsonPrimitive("item").getAsString());
         Item item = Registry.ITEM.get(location);
-        if (item != null) {
-            ComposterHooks.registerCompost(item, obj.getAsJsonPrimitive("chane").getAsFloat());
-        }
+        ComposterHooks.registerCompost(item, obj.getAsJsonPrimitive("chance").getAsFloat());
     }
 }
