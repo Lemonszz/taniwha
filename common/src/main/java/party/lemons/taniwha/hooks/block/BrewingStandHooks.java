@@ -1,18 +1,22 @@
 package party.lemons.taniwha.hooks.block;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
+import party.lemons.taniwha.mixin.brewing.PotionBrewingInvoker;
 
 import java.util.HashSet;
-import java.util.Map;
 
 public class BrewingStandHooks {
+
+    public static void addMix(Potion potion, Item item, Potion result)
+    {
+        PotionBrewingInvoker.callAddMix(potion, item, result);
+    }
 
     public static int getBrewingFuel(BrewingStandBlockEntity brewingStand)
     {

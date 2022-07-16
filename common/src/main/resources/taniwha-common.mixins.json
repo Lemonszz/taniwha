@@ -12,14 +12,15 @@
     "block.entity.brewingstand.BrewingStandBlockEntityMixin",
     "block.entity.brewingstand.BrewingStandFuelSlotMixin",
     "block.noteblock.NoteBlockMixin",
+    "bonemeal.BoneMealItemMixin",
+    "brewing.PotionBrewingInvoker",
     "entity.golem.CarvedPumpkinBlockMixin",
     "entity.golem.DispenserBlockMixin",
     "item.AxeItemMixin",
     "level.data.ServerLevelMixin",
     "sign.WoodTypeMixin",
     "spawn.SpawnPlacementsInvoker",
-    "totem.LivingEntityMixin",
-    "bonemeal.BoneMealItemMixin"
+    "totem.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
