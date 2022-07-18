@@ -1,10 +1,7 @@
 package party.lemons.taniwha.block.modifier;
 
-import com.google.common.collect.Maps;
 import net.minecraft.world.level.block.Block;
-import party.lemons.taniwha.hooks.block.FireBlockHooks;
-
-import java.util.Map;
+import party.lemons.taniwha.block.FlammabilityRegistry;
 
 public record FlammableModifier(int catchOdds, int burnOdds) implements BlockModifier
 {
@@ -19,6 +16,6 @@ public record FlammableModifier(int catchOdds, int burnOdds) implements BlockMod
 
     @Override
     public void accept(Block block) {
-        FireBlockHooks.setBlockFlammable(block, catchOdds, burnOdds);
+        FlammabilityRegistry.setBlockFlammable(block, catchOdds, burnOdds);
     }
 }

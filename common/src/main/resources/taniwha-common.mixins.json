@@ -7,7 +7,7 @@
   ],
   "mixins": [
     "advancement.InventoryChangeTriggerMixin",
-    "block.FireBlockInvoker",
+    "block.FireBlockMixin",
     "block.entity.BlockEntityTypeMixin",
     "block.entity.brewingstand.BrewingStandBlockEntityMixin",
     "block.entity.brewingstand.BrewingStandFuelSlotMixin",
