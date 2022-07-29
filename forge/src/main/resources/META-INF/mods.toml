@@ -16,20 +16,20 @@ Common Library for my mods and other Architectury Projects
 [[dependencies.taniwha]]
 modId = "forge"
 mandatory = true
-versionRange = "[39,)"
+versionRange = "[42,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.taniwha]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.1,)"
+versionRange = "[1.19.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.taniwha]]
 modId = "architectury"
 mandatory = true
-versionRange = "[3.7.22,)"
+versionRange = "[6.0.34,)"
 ordering = "AFTER"
 side = "BOTH"
