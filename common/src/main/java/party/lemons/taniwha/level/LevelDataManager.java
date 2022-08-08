@@ -92,12 +92,17 @@ public class LevelDataManager extends SavedData
     @Override
     public CompoundTag save(CompoundTag tag)
     {
+        ListTag dataTag = new ListTag();
         for(ResourceLocation location : levelData.keySet())
         {
             CompoundTag levelTag = new CompoundTag();
             levelTag.putString("data_id", location.toString());
-            levelData.get(location).save(tag);
+            levelData.get(location).save(levelTag);
+
+            dataTag.add(levelTag);
         }
+
+        tag.put("data", dataTag);
 
         return tag;
     }
@@ -126,6 +131,6 @@ public class LevelDataManager extends SavedData
     public static String getFileId(Holder<DimensionType> holder)
     {
         ResourceLocation location = holder.unwrapKey().get().location();
-        return location.getPath() + "_" + location.getNamespace();
+        return location.getNamespace() + "_" + location.getPath();
     }
 }
