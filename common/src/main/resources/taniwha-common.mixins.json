@@ -3,7 +3,8 @@
   "package": "party.lemons.taniwha.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
-    "totem.client.ClientPacketListenerMixin"
+    "totem.client.ClientPacketListenerMixin",
+    "level.RenderChunkRegionMixin"
   ],
   "mixins": [
     "advancement.InventoryChangeTriggerMixin",
