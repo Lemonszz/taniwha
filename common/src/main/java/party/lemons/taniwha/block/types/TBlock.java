@@ -6,7 +6,7 @@ import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TBlock extends Block implements BlockWithItem, BlockWithModifiers
+public class TBlock extends Block implements BlockWithItem, BlockWithModifiers<TBlock>
 {
     private ModifierContainer<Block> modifierContainer;
 
