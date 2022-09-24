@@ -31,12 +31,12 @@ public class ItemRendererMixin
 	@Inject(at = @At("HEAD"), method = "getModel", cancellable = true)
 	public void getModel(ItemStack itemStack, @Nullable Level level, @Nullable LivingEntity livingEntity, int i, CallbackInfoReturnable<BakedModel> cbi)
 	{
-		if(AlternateInventoryModelRegistry.hasAlternateModel(itemStack.getItem())) {
+	/*	if(AlternateInventoryModelRegistry.hasAlternateModel(itemStack.getItem())) {
 			BakedModel model = this.itemModelShaper.getModelManager().getModel(AlternateInventoryModelRegistry.getAlternateModel(itemStack.getItem()));
 			ClientLevel clientLevel = level instanceof ClientLevel ? (ClientLevel) level : null;
 			BakedModel modelOverride = model.getOverrides().resolve(model, itemStack, clientLevel, livingEntity, i);
 			cbi.setReturnValue(modelOverride == null ? this.itemModelShaper.getModelManager().getMissingModel() : modelOverride);
-		}
+		}*/
 	}
 
 	@Unique
