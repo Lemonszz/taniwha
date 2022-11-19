@@ -1,6 +1,7 @@
 package party.lemons.taniwha.util.collections;
 
 import com.google.common.collect.Lists;
+import net.minecraft.util.RandomSource;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,15 +19,15 @@ public class WeightedList<T>
         return this;
     }
 
-    public T sample()
+    public T sample(RandomSource random)
     {
         Collections.shuffle(entries);
-        int w = totalWeight;
-
+        float p = random.nextFloat() * totalWeight;
+        float count = 0;
         for(Entry<T> entry : entries)
         {
-            w -= entry.weight;
-            if(w <= 0)
+            count += entry.weight;
+            if(count > p)
                 return entry.object;
         }
 
