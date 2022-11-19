@@ -10,10 +10,12 @@ public class WeightedList<T>
     private final List<Entry<T>> entries = Lists.newArrayList();
     private int totalWeight = 0;
 
-    public void add(T object, int weight)
+    public WeightedList<T> add(T object, int weight)
     {
         entries.add(new Entry<T>(object, weight));
         totalWeight += weight;
+
+        return this;
     }
 
     public T sample()
