@@ -48,7 +48,7 @@ public class DecorationBlockFactory
         this.tab = tab;
         this.callback = callback;
 
-        this.blockItemProperties = ()->new Item.Properties().tab(this.tab);
+        this.blockItemProperties = Item.Properties::new;
     }
 
     public DecorationBlockFactory slab()

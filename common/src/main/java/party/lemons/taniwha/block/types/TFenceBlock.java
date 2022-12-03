@@ -5,10 +5,9 @@ import net.minecraft.world.level.block.FenceBlock;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TFenceBlock extends FenceBlock implements BlockWithItem, BlockWithModifiers<TFenceBlock> {
+public class TFenceBlock extends FenceBlock implements BlockWithModifiers<TFenceBlock> {
 
     private ModifierContainer<Block> modifierContainer;
 

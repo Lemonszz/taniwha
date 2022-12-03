@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -52,7 +53,7 @@ public class CompostReloadListener extends SimpleJsonResourceReloadListener
     private static void load(JsonObject obj)
     {
         ResourceLocation location = new ResourceLocation(obj.getAsJsonPrimitive("item").getAsString());
-        Item item = Registry.ITEM.get(location);
+        Item item = BuiltInRegistries.ITEM.get(location);
         ComposterHooks.registerCompost(item, obj.getAsJsonPrimitive("chance").getAsFloat());
     }
 }

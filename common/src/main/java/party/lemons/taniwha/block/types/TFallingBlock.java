@@ -6,13 +6,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TFallingBlock extends FallingBlock implements BlockWithItem, BlockWithModifiers<TFallingBlock>
+public class TFallingBlock extends FallingBlock implements BlockWithModifiers<TFallingBlock>
 {
     private ModifierContainer<Block> modifierContainer;
     private final int dustColor;

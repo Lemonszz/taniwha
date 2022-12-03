@@ -5,10 +5,9 @@ import net.minecraft.world.level.block.TallFlowerBlock;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TTallFlowerBlock extends TallFlowerBlock implements BlockWithItem, BlockWithModifiers<TTallFlowerBlock>
+public class TTallFlowerBlock extends TallFlowerBlock implements BlockWithModifiers<TTallFlowerBlock>
 {
     private ModifierContainer<Block> modifierContainer;
 

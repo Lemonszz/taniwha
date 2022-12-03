@@ -2,6 +2,7 @@ package party.lemons.taniwha.entity;
 
 import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import party.lemons.taniwha.TConstants;
@@ -12,7 +13,7 @@ import party.lemons.taniwha.entity.boat.TChestBoat;
 import java.util.function.Supplier;
 
 public class TEntities {
-    private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(TConstants.MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
+    private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(TConstants.MOD_ID, Registries.ENTITY_TYPE);
 
     public static final Supplier<EntityType<? extends TBoat>> T_BOAT = ENTITIES.register(Taniwha.id("t_boat"), ()->
         TEntityTypeBuilder.of((EntityType.EntityFactory<TBoat>)TBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(128).updateInterval(3).build()

@@ -6,10 +6,9 @@ import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TSaplingBlock extends SaplingBlock implements BlockWithItem, BlockWithModifiers<TSaplingBlock> {
+public class TSaplingBlock extends SaplingBlock implements BlockWithModifiers<TSaplingBlock> {
     private ModifierContainer<Block> modifierContainer;
 
     public TSaplingBlock(AbstractTreeGrower abstractTreeGrower, Properties settings) {

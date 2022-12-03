@@ -5,10 +5,9 @@ import net.minecraft.world.level.block.LeavesBlock;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TLeavesBlock extends LeavesBlock implements BlockWithItem, BlockWithModifiers<TLeavesBlock>
+public class TLeavesBlock extends LeavesBlock implements BlockWithModifiers<TLeavesBlock>
 {
     private ModifierContainer<Block> modifierContainer;
 

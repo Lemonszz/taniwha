@@ -5,10 +5,9 @@ import net.minecraft.world.level.block.SlabBlock;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TSlabBlock extends SlabBlock implements BlockWithItem, BlockWithModifiers<TSlabBlock> {
+public class TSlabBlock extends SlabBlock implements BlockWithModifiers<TSlabBlock> {
     private ModifierContainer<Block> modifierContainer;
 
     public TSlabBlock(Properties settings) {

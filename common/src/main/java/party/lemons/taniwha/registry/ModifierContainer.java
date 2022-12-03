@@ -1,20 +1,15 @@
 package party.lemons.taniwha.registry;
 
-public class ModifierContainer<T>
+public record ModifierContainer<T>(T type, Modifier<T>... modifiers)
 {
-    private final Modifier<T>[] modifiers;
-    private final T type;
-
     @SafeVarargs
-    public ModifierContainer(T type, Modifier<T>... modifiers)
+    public ModifierContainer
     {
-        this.type = type;
-        this.modifiers = modifiers;
     }
 
     public void initModifiers()
     {
-        for(Modifier<T> modifier : modifiers)
+        for (Modifier<T> modifier : modifiers)
             modifier.accept(type);
     }
 }

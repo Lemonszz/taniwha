@@ -13,6 +13,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
@@ -226,7 +228,8 @@ public class GolemHandler
 
         for(TagKey<Block> tag : golemHeadTags)
         {
-            for (Holder<Block> blockHolder : Registry.BLOCK.getTagOrEmpty(tag)) {
+
+            for (Holder<Block> blockHolder : BuiltInRegistries.BLOCK.getTagOrEmpty(tag)) {
                 Block bl = blockHolder.value();
                 Item it = bl.asItem();
 

@@ -192,4 +192,5 @@ public class TChestBoat extends TBoat implements HasCustomInventoryScreen, Conta
 	public void clearItemStacks() {
 		this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 	}
+
 }

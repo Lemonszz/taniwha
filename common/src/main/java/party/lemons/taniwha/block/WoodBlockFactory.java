@@ -2,7 +2,6 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
@@ -137,7 +136,7 @@ public class WoodBlockFactory
 
     public Item.Properties properties()
     {
-        return new Item.Properties().tab(this.tab);
+        return new Item.Properties();
     }
 
     public WoodBlockFactory all(Supplier<BoatType> boatType)
@@ -243,8 +242,8 @@ public class WoodBlockFactory
         STAIR("", "stairs", true, (f)->()->new TStairBlock(f.getBlock(Type.PLANK).get().defaultBlockState(), props(f.properties)).modifiers(FlammableModifier.WOOD)),
         FENCE("", "fence", true, (f)->()->new TFenceBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
         FENCE_GATE("", "fence_gate", true, (f)->()->new TFenceGateBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        PRESSURE_PLATE("", "pressure_plate", true, (f)->()->new TPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props(f.properties).strength(0.5F).noCollission())),
-        BUTTON("", "button", true, (f)-> ()->new TButtonBlock(props(f.properties).strength(0.5F).noCollission())),
+        PRESSURE_PLATE("", "pressure_plate", true, (f)->()->new TWoodenPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props(f.properties).strength(0.5F).noCollission())),
+        BUTTON("", "button", true, (f)-> ()->new TButtonBlock(props(f.properties).strength(0.5F).noCollission(), 30 ,true)),
         TRAP_DOOR("", "trapdoor", true, (f)->()->new TTrapdoorBlock(props(f.properties).strength(3F).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT))),
         DOOR("", "door", true, (f)->()->new TDoorBlock(props(f.properties).strength(3.0F).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT))),
         SIGN("", "sign", false, (f)->()->new StandingSignBlock(props(f.properties).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),

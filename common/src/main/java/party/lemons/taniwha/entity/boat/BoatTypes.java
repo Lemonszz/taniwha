@@ -3,6 +3,7 @@ package party.lemons.taniwha.entity.boat;
 import com.google.common.collect.Lists;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -39,8 +40,8 @@ public class BoatTypes
     {
         for(BoatType type : TYPES)
         {
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getModelLocation()), "main"), ()->BoatModel.createBodyModel(false));
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getChestModelLocation()), "main"), ()->BoatModel.createBodyModel(true));
+            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getModelLocation()), "main"), BoatModel::createBodyModel);
+            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
         }
     }
 }

@@ -6,10 +6,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TStairBlock extends StairBlock implements BlockWithItem, BlockWithModifiers<TStairBlock> {
+public class TStairBlock extends StairBlock implements BlockWithModifiers<TStairBlock> {
 
     private ModifierContainer<Block> modifierContainer;
 

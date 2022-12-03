@@ -4,8 +4,9 @@
   "compatibilityLevel": "JAVA_16",
   "client": [
     "level.RenderChunkRegionMixin",
-    "totem.client.ClientPacketListenerMixin",
-    "model.ItemRendererMixin"
+    "level.TerrainParticleMixin",
+    "model.ItemRendererMixin",
+    "totem.client.ClientPacketListenerMixin"
   ],
   "mixins": [
     "advancement.InventoryChangeTriggerMixin",

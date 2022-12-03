@@ -6,10 +6,9 @@ import net.minecraft.world.level.block.DropExperienceBlock;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TDropExperienceBlock extends DropExperienceBlock implements BlockWithItem, BlockWithModifiers<TDropExperienceBlock>
+public class TDropExperienceBlock extends DropExperienceBlock implements BlockWithModifiers<TDropExperienceBlock>
 {
 	private ModifierContainer<Block> modifierContainer;
 

@@ -4,10 +4,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
-import party.lemons.taniwha.registry.BlockWithItem;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TBushBlock extends BushBlock implements BlockWithItem, BlockWithModifiers<TBushBlock>
+public class TBushBlock extends BushBlock implements BlockWithModifiers<TBushBlock>
 {
     private ModifierContainer<Block> modifierContainer;
 
