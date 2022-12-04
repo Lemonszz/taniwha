@@ -11,6 +11,7 @@
   "mixins": [
     "advancement.InventoryChangeTriggerMixin",
     "block.BushBlockMixin",
+    "block.CropBlockMixin",
     "block.FireBlockMixin",
     "block.antimelt.IceBlockMixin",
     "block.antimelt.SnowLayerBlockMixin",
