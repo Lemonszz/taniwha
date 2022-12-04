@@ -34,6 +34,16 @@ public class WeightedList<T>
         throw new RuntimeException("Weighted List Was Empty");
     }
 
+    public void clear()
+    {
+        entries.clear();
+        totalWeight = 0;
+    }
+
+    public boolean isEmpty()
+    {
+        return entries.isEmpty();
+    }
 
     private record Entry<T>(T object, int weight)
     {
