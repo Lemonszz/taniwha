@@ -6,7 +6,6 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
@@ -31,21 +30,19 @@ public class DecorationBlockFactory
     private final Supplier<Block> base;
     private final Consumer<Supplier<Block>> callback;
     private final String modid;
-    private final CreativeModeTab tab;
     protected Supplier<Item.Properties> blockItemProperties;
 
-    public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Supplier<Block> baseBlock, Block.Properties settings)
+    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings)
     {
-        this(modid, tab, name, baseBlock, settings, null);
+        this(modid, name, baseBlock, settings, null);
     }
 
-    public DecorationBlockFactory(String modid, CreativeModeTab tab, String name, Supplier<Block> baseBlock, Block.Properties settings, Consumer<Supplier<Block>> callback)
+    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
         this.settings = settings;
         this.base = baseBlock;
-        this.tab = tab;
         this.callback = callback;
 
         this.blockItemProperties = Item.Properties::new;

@@ -6,7 +6,6 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
@@ -42,21 +41,19 @@ public class WoodBlockFactory
     private final BlockBehaviour.Properties properties;
     private final Consumer<Supplier<Block>> callback;
     private final String modid;
-    private final CreativeModeTab tab;
     private Supplier<BoatType> boatType;
 
-    public WoodBlockFactory(String modid, CreativeModeTab group, String name)
+    public WoodBlockFactory(String modid, String name)
     {
-        this(modid, group, name, BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), null);
+        this(modid, name, BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), null);
     }
 
-    public WoodBlockFactory(String modid, CreativeModeTab group, String name, Block.Properties settings, Consumer<Supplier<Block>> callback)
+    public WoodBlockFactory(String modid, String name, Block.Properties settings, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
         this.properties = settings;
         this.callback = callback;
-        this.tab = group;
 
         woodType = SignTypeHooks.register(name);
         types.add(Type.LOG);
