@@ -22,7 +22,7 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         id: build
-        run: ./gradlew setupActions build publish
+        run: ./gradlew setupActions build publish --no-daemon
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Create a Release"
