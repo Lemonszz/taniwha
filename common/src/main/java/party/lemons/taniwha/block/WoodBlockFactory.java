@@ -2,6 +2,7 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
@@ -42,18 +43,20 @@ public class WoodBlockFactory
     private final Consumer<Supplier<Block>> callback;
     private final String modid;
     private Supplier<BoatType> boatType;
+    private final CreativeTabRegistry.TabSupplier tabSupplier;
 
-    public WoodBlockFactory(String modid, String name)
+    public WoodBlockFactory(String modid, String name, CreativeTabRegistry.TabSupplier tabSupplier)
     {
-        this(modid, name, BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), null);
+        this(modid, name, BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), tabSupplier, null);
     }
 
-    public WoodBlockFactory(String modid, String name, Block.Properties settings, Consumer<Supplier<Block>> callback)
+    public WoodBlockFactory(String modid, String name, Block.Properties settings, CreativeTabRegistry.TabSupplier tabSupplier, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
         this.properties = settings;
         this.callback = callback;
+        this.tabSupplier = tabSupplier;
 
         woodType = SignTypeHooks.register(name);
         types.add(Type.LOG);
@@ -133,7 +136,7 @@ public class WoodBlockFactory
 
     public Item.Properties properties()
     {
-        return new Item.Properties();
+        return new Item.Properties().arch$tab(tabSupplier);
     }
 
     public WoodBlockFactory all(Supplier<BoatType> boatType)
