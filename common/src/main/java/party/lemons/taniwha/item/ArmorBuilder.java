@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import party.lemons.taniwha.item.types.TArmorItem;
@@ -54,10 +55,10 @@ public class ArmorBuilder
 		return this;
 	}
 
-	public Supplier<Item> build(EquipmentSlot slot, Item.Properties properties)
+	public Supplier<Item> build(ArmorItem.Type type, Item.Properties properties)
 	{
 		if(!overrideProtection)
-			protection = material.getDefenseForSlot(slot);
+			protection = material.getDefenseForType(type);
 
 		attributes.removeAll(Attributes.ARMOR);
 		attributes.removeAll(Attributes.ARMOR_TOUGHNESS);
@@ -70,18 +71,18 @@ public class ArmorBuilder
 			attributes.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(DUMMY_UUID, "Armor knockback resistance", this.knockbackResistance, AttributeModifier.Operation.ADDITION));
 		}
 
-		LinkedListMultimap<Attribute, AttributeModifier> builtAttributes = buildAttributes(slot);
-		return ()->new TArmorItem(material, builtAttributes, protection, toughness, slot, properties);
+		LinkedListMultimap<Attribute, AttributeModifier> builtAttributes = buildAttributes(type);
+		return ()->new TArmorItem(material, builtAttributes, protection, toughness, type, properties);
 	}
 
-	public LinkedListMultimap<Attribute, AttributeModifier> buildAttributes(EquipmentSlot slot)
+	public LinkedListMultimap<Attribute, AttributeModifier> buildAttributes(ArmorItem.Type type)
 	{
 		LinkedListMultimap<Attribute, AttributeModifier> atts = LinkedListMultimap.create();
 		for(Attribute attribute : attributes.keys())
 		{
 			for(AttributeModifier modifier : attributes.get(attribute))
 			{
-				atts.put(attribute, new AttributeModifier(MODIFIERS[slot.getIndex()], modifier.getName(), modifier.getAmount(), modifier.getOperation()));
+				atts.put(attribute, new AttributeModifier(MODIFIERS[type.getSlot().getIndex()], modifier.getName(), modifier.getAmount(), modifier.getOperation()));
 			}
 		}
 		return atts;

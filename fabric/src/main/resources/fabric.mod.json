@@ -12,7 +12,7 @@
     "sources": "https://github.com/lemonszz/taniwha/issues"
   },
   "license": "MIT",
-  "icon": "assets/examplemod/icon.png",
+  "icon": "assets/taniwha/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

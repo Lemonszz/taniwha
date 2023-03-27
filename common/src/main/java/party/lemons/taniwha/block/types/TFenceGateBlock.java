@@ -4,6 +4,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
@@ -13,14 +15,9 @@ public class TFenceGateBlock extends FenceGateBlock implements BlockWithModifier
 {
     private ModifierContainer<Block> modifierContainer;
 
-    public TFenceGateBlock(Properties properties)
+    public TFenceGateBlock(Properties properties, WoodType woodType)
     {
-        super(properties, SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN);
-    }
-
-    public TFenceGateBlock(Properties properties, SoundEvent closeSound, SoundEvent openSound)
-    {
-        super(properties, closeSound, openSound);
+        super(properties, woodType);
     }
 
     @Override

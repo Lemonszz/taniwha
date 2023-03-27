@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
@@ -13,14 +14,9 @@ public class TDoorBlock extends DoorBlock implements BlockWithModifiers<TDoorBlo
 {
     private ModifierContainer<Block> modifierContainer;
 
-    public TDoorBlock(Properties settings)
+    public TDoorBlock(Properties settings, BlockSetType setType)
     {
-        super(settings, SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN);
-    }
-
-    public TDoorBlock(Properties settings, SoundEvent closeSound, SoundEvent openSound)
-    {
-        super(settings, closeSound, openSound);
+        super(settings, setType);
     }
 
     @Override

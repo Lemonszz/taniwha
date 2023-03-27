@@ -14,9 +14,9 @@ public class TArmorItem extends ArmorItem
 	private final int protection;
 	private final float toughness;
 
-	public TArmorItem(ArmorMaterial material, Multimap<Attribute, AttributeModifier> attributes, int protection, float toughness, EquipmentSlot slot, Properties properties)
+	public TArmorItem(ArmorMaterial material, Multimap<Attribute, AttributeModifier> attributes, int protection, float toughness, ArmorItem.Type type, Properties properties)
 	{
-		super(material, slot, properties);
+		super(material, type, properties);
 
 		this.attributes = attributes;
 		this.protection = protection;
@@ -26,7 +26,7 @@ public class TArmorItem extends ArmorItem
 	@Override
 	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot)
 	{
-		return equipmentSlot == this.slot ? attributes : ImmutableMultimap.of();
+		return equipmentSlot == this.type.getSlot() ? attributes : ImmutableMultimap.of();
 	}
 
 	@Override

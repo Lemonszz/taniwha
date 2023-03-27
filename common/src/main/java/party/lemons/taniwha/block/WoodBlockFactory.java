@@ -12,6 +12,7 @@ import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
 import party.lemons.taniwha.block.modifier.FlammableModifier;
@@ -21,7 +22,6 @@ import party.lemons.taniwha.block.rtype.RType;
 import party.lemons.taniwha.block.types.*;
 import party.lemons.taniwha.entity.boat.BoatType;
 import party.lemons.taniwha.hooks.block.entity.BlockEntityHooks;
-import party.lemons.taniwha.hooks.sign.SignTypeHooks;
 import party.lemons.taniwha.item.ItemHelper;
 import party.lemons.taniwha.item.types.TBoatItem;
 
@@ -47,10 +47,16 @@ public class WoodBlockFactory
 
     public WoodBlockFactory(String modid, String name, CreativeTabRegistry.TabSupplier tabSupplier)
     {
-        this(modid, name, BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), tabSupplier, null);
+        this(modid, name, new BlockSetType(name), BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), tabSupplier, null);
     }
 
-    public WoodBlockFactory(String modid, String name, Block.Properties settings, CreativeTabRegistry.TabSupplier tabSupplier, Consumer<Supplier<Block>> callback)
+
+    public WoodBlockFactory(String modid, String name, BlockSetType setType, CreativeTabRegistry.TabSupplier tabSupplier)
+    {
+        this(modid, name, setType, BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), tabSupplier, null);
+    }
+
+    public WoodBlockFactory(String modid, String name, BlockSetType setType, Block.Properties settings, CreativeTabRegistry.TabSupplier tabSupplier, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
@@ -58,7 +64,7 @@ public class WoodBlockFactory
         this.callback = callback;
         this.tabSupplier = tabSupplier;
 
-        woodType = SignTypeHooks.register(name);
+        woodType = new WoodType(name, setType);
         types.add(Type.LOG);
         types.add(Type.STRIPPED_LOG);
         types.add(Type.PLANK);
@@ -241,11 +247,11 @@ public class WoodBlockFactory
         SLAB("", "slab", true, (f)->()->new TSlabBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
         STAIR("", "stairs", true, (f)->()->new TStairBlock(f.getBlock(Type.PLANK).get().defaultBlockState(), props(f.properties)).modifiers(FlammableModifier.WOOD)),
         FENCE("", "fence", true, (f)->()->new TFenceBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        FENCE_GATE("", "fence_gate", true, (f)->()->new TFenceGateBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        PRESSURE_PLATE("", "pressure_plate", true, (f)->()->new TWoodenPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, props(f.properties).strength(0.5F).noCollission())),
-        BUTTON("", "button", true, (f)-> ()->new TButtonBlock(props(f.properties).strength(0.5F).noCollission(), 30 ,true)),
-        TRAP_DOOR("", "trapdoor", true, (f)->()->new TTrapdoorBlock(props(f.properties).strength(3F).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT))),
-        DOOR("", "door", true, (f)->()->new TDoorBlock(props(f.properties).strength(3.0F).noOcclusion()).modifiers(RTypeModifier.create(RType.CUTOUT))),
+        FENCE_GATE("", "fence_gate", true, (f)->()->new TFenceGateBlock(props(f.properties), f.woodType).modifiers(FlammableModifier.WOOD)),
+        PRESSURE_PLATE("", "pressure_plate", true, (f)->()->new TWoodenPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, f.woodType.setType(), props(f.properties).strength(0.5F).noCollission())),
+        BUTTON("", "button", true, (f)-> ()->new TButtonBlock(props(f.properties).strength(0.5F).noCollission(), f.woodType.setType(), 30 ,true)),
+        TRAP_DOOR("", "trapdoor", true, (f)->()->new TTrapdoorBlock(props(f.properties).strength(3F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
+        DOOR("", "door", true, (f)->()->new TDoorBlock(props(f.properties).strength(3.0F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
         SIGN("", "sign", false, (f)->()->new StandingSignBlock(props(f.properties).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_ITEM("", "sign", false, null, (f)->()->new SignItem(f.properties().stacksTo(16), f.getBlock(Type.SIGN).get(), f.getBlock(Type.SIGN_WALL).get())),

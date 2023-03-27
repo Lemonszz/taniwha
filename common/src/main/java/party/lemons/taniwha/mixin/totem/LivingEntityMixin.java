@@ -1,5 +1,6 @@
 package party.lemons.taniwha.mixin.totem;
 
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +28,7 @@ public abstract class LivingEntityMixin extends Entity
     @Inject(at = @At("HEAD"), method = "checkTotemDeathProtection", cancellable = true)
     private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> cbi)
     {
-        if (!source.isBypassInvul())
+        if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
         {
             for(InteractionHand hand : InteractionHand.values())
             {

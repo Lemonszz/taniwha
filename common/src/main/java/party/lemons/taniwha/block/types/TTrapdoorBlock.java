@@ -3,6 +3,7 @@ package party.lemons.taniwha.block.types;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
@@ -12,9 +13,9 @@ public class TTrapdoorBlock extends TrapDoorBlock implements BlockWithModifiers<
 {
     private ModifierContainer<Block> modifierContainer;
 
-    public TTrapdoorBlock(Properties settings)
+    public TTrapdoorBlock(Properties settings, BlockSetType setType)
     {
-        super(settings, SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN);
+        super(settings, setType);
     }
 
     @Override

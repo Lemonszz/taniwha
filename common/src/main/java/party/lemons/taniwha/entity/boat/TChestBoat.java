@@ -83,10 +83,17 @@ public class TChestBoat extends TBoat implements HasCustomInventoryScreen, Conta
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand interactionHand) {
-		if (!this.canAddPassenger(player) || player.isSecondaryUseActive()) {
-			return this.interactWithChestVehicle(this::gameEvent, player);
+		if (this.canAddPassenger(player) && !player.isSecondaryUseActive()) {
+			return super.interact(player, interactionHand);
+		} else {
+			InteractionResult interactionResult = this.interactWithContainerVehicle(player);
+			if (interactionResult.consumesAction()) {
+				this.gameEvent(GameEvent.CONTAINER_OPEN, player);
+				PiglinAi.angerNearbyPiglins(player, true);
+			}
+
+			return interactionResult;
 		}
-		return super.interact(player, interactionHand);
 	}
 
 	@Override

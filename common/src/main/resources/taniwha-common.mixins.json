@@ -26,7 +26,6 @@
     "entity.golem.DispenserBlockMixin",
     "item.AxeItemMixin",
     "level.data.ServerLevelMixin",
-    "sign.WoodTypeMixin",
     "spawn.SpawnPlacementsInvoker",
     "totem.LivingEntityMixin"
   ],
