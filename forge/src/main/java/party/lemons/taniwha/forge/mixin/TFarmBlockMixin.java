@@ -7,10 +7,11 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.IPlantable;
 import org.spongepowered.asm.mixin.Mixin;
+import party.lemons.taniwha.block.TBlockExtension;
 import party.lemons.taniwha.block.types.TFarmBlock;
 
 @Mixin(TFarmBlock.class)
-public abstract class TFarmBlockMixin extends FarmBlock
+public abstract class TFarmBlockMixin extends FarmBlock implements TBlockExtension
 {
 	@Override
 	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable)
@@ -21,7 +22,7 @@ public abstract class TFarmBlockMixin extends FarmBlock
 	@Override
 	public boolean isFertile(BlockState state, BlockGetter level, BlockPos pos)
 	{
-		return state.getValue(MOISTURE) > 0;
+		return isFarmlandMoist(state);
 	}
 
 	public TFarmBlockMixin(Properties arg)
