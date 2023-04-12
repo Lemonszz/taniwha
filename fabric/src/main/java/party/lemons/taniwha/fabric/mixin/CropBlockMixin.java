@@ -15,8 +15,8 @@ import party.lemons.taniwha.util.TaniwhaTags;
 public class CropBlockMixin
 {
 	@WrapOperation(method = "getGrowthSpeed", at = @At(value = "INVOKE", target = "net/minecraft/world/level/block/state/BlockState.is(Lnet/minecraft/world/level/block/Block;)Z", ordinal = 0))
-	private static boolean isFarmlandWithMoistyness(BlockState blockState, Block block, Operation<Boolean> original)
+	private static boolean isFarmlandWithMoistyness(BlockState growOnState, Block block, Operation<Boolean> original)
 	{
-		return original.call(blockState, block) || ((block instanceof TBlockExtension tblock && tblock.isFarmlandMoist(blockState)));
+		return original.call(growOnState, block) || ((growOnState.getBlock() instanceof TBlockExtension tblock && tblock.isFarmlandMoist(growOnState)));
 	}
 }
