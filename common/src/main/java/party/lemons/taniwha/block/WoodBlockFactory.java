@@ -65,6 +65,7 @@ public class WoodBlockFactory
         this.tabSupplier = tabSupplier;
 
         woodType = new WoodType(name, setType);
+        WoodType.register(woodType);
         types.add(Type.LOG);
         types.add(Type.STRIPPED_LOG);
         types.add(Type.PLANK);
