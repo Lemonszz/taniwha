@@ -19,7 +19,7 @@ public class TradeLists
 		TRADE_LISTS.clear();
 	}
 
-	public TradeList get(ResourceLocation id)
+	public static TradeList get(ResourceLocation id)
 	{
 		return TRADE_LISTS.get(id);
 	}

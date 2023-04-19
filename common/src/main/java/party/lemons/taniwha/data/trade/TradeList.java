@@ -1,21 +1,20 @@
 package party.lemons.taniwha.data.trade;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import party.lemons.taniwha.data.trade.listing.TItemListing;
 
-import java.util.Collection;
+import java.util.List;
 
 public class TradeList
 {
-	private final Multimap<Integer, TItemListing> TRADES = ArrayListMultimap.create();
+	private final ArrayListMultimap<Integer, TItemListing> TRADES = ArrayListMultimap.create();
 
 	public void addListing(int level, TItemListing listing)
 	{
 		TRADES.put(level, listing);
 	}
 
-	public Collection<TItemListing> getListingsForLevel(int level)
+	public List<TItemListing> getListingsForLevel(int level)
 	{
 		return TRADES.get(level);
 	}

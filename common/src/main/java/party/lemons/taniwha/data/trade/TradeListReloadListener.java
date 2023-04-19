@@ -48,7 +48,7 @@ public class TradeListReloadListener extends SimpleJsonResourceReloadListener
 							JsonObject listingJSON = levelList.get(k).getAsJsonObject();
 							DataResult<TItemListing> parsed = TradeTypes.CODEC.parse(JsonOps.INSTANCE, listingJSON);
 							if (parsed.result().isPresent()) {
-								list.addListing(k + 1, parsed.result().get());
+								list.addListing(i + 1, parsed.result().get());
 							}
 						}
 					}
