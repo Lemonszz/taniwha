@@ -10,6 +10,8 @@ import party.lemons.taniwha.client.model.ModelLoaderRegistry;
 import party.lemons.taniwha.config.TaniwhaConfig;
 import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.data.CompostReloadListener;
+import party.lemons.taniwha.data.trade.TradeListReloadListener;
+import party.lemons.taniwha.data.trade.listing.TradeTypes;
 import party.lemons.taniwha.entity.TEntities;
 import party.lemons.taniwha.entity.golem.GolemHandler;
 import party.lemons.taniwha.hooks.entity.TSpawnPlacement;
@@ -24,8 +26,10 @@ public class Taniwha
         TEntities.init();
         TBlockTags.init();
         TNetwork.init();
+        TradeTypes.init();
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new BrewingFuelReloadListener());
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new CompostReloadListener());
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new TradeListReloadListener());
 
         LifecycleEvent.SETUP.register(()->{
             GolemHandler.init();
