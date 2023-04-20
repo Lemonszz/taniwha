@@ -34,7 +34,9 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-    include("com.github.LlamaLad7:MixinExtras:0.1.1")
+
+    annotationProcessor(group: 'com.github.LlamaLad7', name: 'MixinExtras', version: "0.1.1")
+    forgeRuntimeLibrary(include(group: 'com.github.LlamaLad7', name: 'MixinExtras', version: "0.1.1"))
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

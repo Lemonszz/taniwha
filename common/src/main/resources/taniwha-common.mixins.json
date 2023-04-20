@@ -14,6 +14,7 @@
     "block.CropBlockMixin",
     "block.FireBlockMixin",
     "block.PointedDripstoneBlockMixin",
+    "block.PoweredSnowBlockMixin",
     "block.antimelt.IceBlockMixin",
     "block.antimelt.SnowLayerBlockMixin",
     "block.entity.BlockEntityTypeMixin",
