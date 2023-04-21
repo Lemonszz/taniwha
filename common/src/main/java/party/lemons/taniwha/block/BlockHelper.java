@@ -18,7 +18,7 @@ public class BlockHelper {
             modifierBlock.initModifiers();
         }
 
-        if(b instanceof TBlock tBlock)
+        if(b instanceof TBlockExtension tBlock)
         {
             tBlock.onRegister();
         }

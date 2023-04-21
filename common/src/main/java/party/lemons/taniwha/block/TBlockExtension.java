@@ -10,8 +10,13 @@ public interface TBlockExtension
 		return false;
 	}
 
-	default BlockPathTypes getBlockPathType(BlockState state)
+	default BlockPathTypes getNodePathType()
 	{
 		return null;
+	}
+
+	default void onRegister()
+	{
+
 	}
 }
