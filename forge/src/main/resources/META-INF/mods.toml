@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Taniwha"
 authors = "Lemons"
 description = '''
-Common Library for my mods and other Architectury Projects
+Library for LASER KNIGHTS mods (Biome Makeover)
 '''
 #logoFile = ""
 
