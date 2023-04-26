@@ -6,11 +6,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Ingredient;
+import party.lemons.taniwha.Taniwha;
 import party.lemons.taniwha.data.trade.listing.TItemListing;
 import party.lemons.taniwha.data.trade.listing.TradeTypes;
 import party.lemons.taniwha.hooks.block.BrewingStandHooks;
@@ -47,7 +49,11 @@ public class TradeListReloadListener extends SimpleJsonResourceReloadListener
 
 							JsonObject listingJSON = levelList.get(k).getAsJsonObject();
 							DataResult<TItemListing> parsed = TradeTypes.CODEC.parse(JsonOps.INSTANCE, listingJSON);
-							if (parsed.result().isPresent()) {
+							if(parsed.error().isPresent())
+							{
+								System.out.println(parsed.error().get().message());
+							}
+							else if (parsed.result().isPresent()) {
 								list.addListing(i + 1, parsed.result().get());
 							}
 						}
