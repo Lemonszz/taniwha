@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -12,22 +13,27 @@ import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import party.lemons.taniwha.block.modifier.FlammableModifier;
 import party.lemons.taniwha.block.modifier.RTypeModifier;
 import party.lemons.taniwha.block.modifier.StrippableModifier;
 import party.lemons.taniwha.block.rtype.RType;
 import party.lemons.taniwha.block.types.*;
 import party.lemons.taniwha.entity.boat.BoatType;
+import party.lemons.taniwha.hooks.block.BlockPropertiesHooks;
 import party.lemons.taniwha.hooks.block.entity.BlockEntityHooks;
 import party.lemons.taniwha.item.ItemHelper;
 import party.lemons.taniwha.item.types.TBoatItem;
+import party.lemons.taniwha.util.BlockUtil;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class WoodBlockFactory
@@ -40,6 +46,8 @@ public class WoodBlockFactory
     private final WoodType woodType;
     private final String name;
     private final BlockBehaviour.Properties properties;
+    private MaterialColor barkColor = MaterialColor.WOOD;
+    private MaterialColor plankColor = MaterialColor.PODZOL;
     private final Consumer<Supplier<Block>> callback;
     private final String modid;
     private Supplier<BoatType> boatType;
@@ -49,7 +57,6 @@ public class WoodBlockFactory
     {
         this(modid, name, new BlockSetType(name), BlockBehaviour.Properties.of(Material.WOOD).strength(2F, 3F).sound(SoundType.WOOD), tabSupplier, null);
     }
-
 
     public WoodBlockFactory(String modid, String name, BlockSetType setType, CreativeTabRegistry.TabSupplier tabSupplier)
     {
@@ -69,6 +76,13 @@ public class WoodBlockFactory
         types.add(Type.LOG);
         types.add(Type.STRIPPED_LOG);
         types.add(Type.PLANK);
+    }
+
+    public WoodBlockFactory color(MaterialColor barkColor, MaterialColor plankColor)
+    {
+        this.barkColor = barkColor;
+        this.plankColor = plankColor;
+        return this;
     }
 
     public WoodBlockFactory slab()
@@ -220,41 +234,46 @@ public class WoodBlockFactory
 
     private static BlockBehaviour.Properties props(BlockBehaviour.Properties props)
     {
-        BlockBehaviour be = new BlockBehaviour(props)
-        {
-            @Override
-            public Item asItem()
-            {
-                return null;
-            }
+        return BlockUtil.copyProperties(props);
+    }
 
-            @Override
-            protected Block asBlock()
-            {
-                return null;
-            }
-        };
+    private static BlockBehaviour.Properties propsPlank(WoodBlockFactory f)
+    {
+        return BlockUtil.copyProperties(f.properties).color(f.plankColor);
+    }
 
-        return BlockBehaviour.Properties.copy(be);
+    private static BlockBehaviour.Properties propsBark(WoodBlockFactory f)
+    {
+        return BlockUtil.copyProperties(f.properties).color(f.barkColor);
+    }
+
+    private static BlockBehaviour.Properties propsAxis(WoodBlockFactory f)
+    {
+        return props(f.properties, blockState -> blockState.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? f.plankColor : f.barkColor);
+    }
+
+    private static BlockBehaviour.Properties props(BlockBehaviour.Properties props, Function<BlockState, MaterialColor> colorFunction)
+    {
+        return BlockPropertiesHooks.withColor(BlockUtil.copyProperties(props), colorFunction);
     }
 
     public enum Type
     {
-        STRIPPED_WOOD("stripped", "wood", true, (f)->()->new TPillarBlock(props(f.properties).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD)),
-        STRIPPED_LOG("stripped", "log", true, (f)->()->new TPillarBlock(props(f.properties).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD)),
-        PLANK("", "planks", true, (f)->()->new TBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        LOG("", "log", true, (f)->()->new TPillarBlock(props(f.properties).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->f.getBlock(Type.STRIPPED_LOG).get()))),
-        WOOD("", "wood", true, (f)->()->new TPillarBlock(props(f.properties).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->f.getBlock(Type.STRIPPED_WOOD).get()))),
-        SLAB("", "slab", true, (f)->()->new TSlabBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        STAIR("", "stairs", true, (f)->()->new TStairBlock(f.getBlock(Type.PLANK).get().defaultBlockState(), props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        FENCE("", "fence", true, (f)->()->new TFenceBlock(props(f.properties)).modifiers(FlammableModifier.WOOD)),
-        FENCE_GATE("", "fence_gate", true, (f)->()->new TFenceGateBlock(props(f.properties), f.woodType).modifiers(FlammableModifier.WOOD)),
-        PRESSURE_PLATE("", "pressure_plate", true, (f)->()->new TWoodenPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, f.woodType.setType(), props(f.properties).strength(0.5F).noCollission())),
-        BUTTON("", "button", true, (f)-> ()->new TButtonBlock(props(f.properties).strength(0.5F).noCollission(), f.woodType.setType(), 30 ,true)),
-        TRAP_DOOR("", "trapdoor", true, (f)->()->new TTrapdoorBlock(props(f.properties).strength(3F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
-        DOOR("", "door", true, (f)->()->new TDoorBlock(props(f.properties).strength(3.0F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
-        SIGN("", "sign", false, (f)->()->new StandingSignBlock(props(f.properties).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
-        SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
+        STRIPPED_WOOD("stripped", "wood", true, (f)->()->new TPillarBlock(propsPlank(f).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD)),
+        STRIPPED_LOG("stripped", "log", true, (f)->()->new TPillarBlock(propsPlank(f).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD)),
+        PLANK("", "planks", true, (f)->()->new TBlock(propsPlank(f)).modifiers(FlammableModifier.WOOD)),
+        LOG("", "log", true, (f)->()->new TPillarBlock(propsAxis(f).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->f.getBlock(Type.STRIPPED_LOG).get()))),
+        WOOD("", "wood", true, (f)->()->new TPillarBlock(propsBark(f).explosionResistance(2.0F)).modifiers(FlammableModifier.WOOD, new StrippableModifier(()->f.getBlock(Type.STRIPPED_WOOD).get()))),
+        SLAB("", "slab", true, (f)->()->new TSlabBlock(propsPlank(f)).modifiers(FlammableModifier.WOOD)),
+        STAIR("", "stairs", true, (f)->()->new TStairBlock(f.getBlock(Type.PLANK).get().defaultBlockState(), propsPlank(f)).modifiers(FlammableModifier.WOOD)),
+        FENCE("", "fence", true, (f)->()->new TFenceBlock(propsPlank(f)).modifiers(FlammableModifier.WOOD)),
+        FENCE_GATE("", "fence_gate", true, (f)->()->new TFenceGateBlock(propsPlank(f), f.woodType).modifiers(FlammableModifier.WOOD)),
+        PRESSURE_PLATE("", "pressure_plate", true, (f)->()->new TWoodenPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, f.woodType.setType(), propsPlank(f).strength(0.5F).noCollission())),
+        BUTTON("", "button", true, (f)-> ()->new TButtonBlock(propsPlank(f).strength(0.5F).noCollission(), f.woodType.setType(), 30 ,true)),
+        TRAP_DOOR("", "trapdoor", true, (f)->()->new TTrapdoorBlock(propsPlank(f).strength(3F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
+        DOOR("", "door", true, (f)->()->new TDoorBlock(propsPlank(f).strength(3.0F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
+        SIGN("", "sign", false, (f)->()->new StandingSignBlock(propsPlank(f).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
+        SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).color(f.plankColor).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_ITEM("", "sign", false, null, (f)->()->new SignItem(f.properties().stacksTo(16), f.getBlock(Type.SIGN).get(), f.getBlock(Type.SIGN_WALL).get())),
         BOAT("", "boat", false, null, (f)->()->new TBoatItem(f.boatType, false, f.properties().stacksTo(1))),
         CHEST_BOAT("", "chest_boat", false, null, (f)->()->new TBoatItem(f.boatType, true, f.properties().stacksTo(1)));

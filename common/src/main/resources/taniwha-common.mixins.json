@@ -10,6 +10,7 @@
   ],
   "mixins": [
     "advancement.InventoryChangeTriggerMixin",
+    "block.BlockPropertiesMixin",
     "block.BushBlockMixin",
     "block.CropBlockMixin",
     "block.FireBlockMixin",
