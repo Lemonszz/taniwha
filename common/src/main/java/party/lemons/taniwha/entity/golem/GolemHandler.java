@@ -117,6 +117,7 @@ public class GolemHandler
             {
                 if(state.is(tag))
                 {
+                    level.setBlock(pos, state, Block.UPDATE_NONE);
                     GolemHandler.checkAndCreateGolem(level, pos);
                     return EventResult.pass();
                 }
