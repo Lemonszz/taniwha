@@ -119,6 +119,7 @@ public class GolemHandler
                 {
                     level.setBlock(pos, state, Block.UPDATE_NONE);
                     GolemHandler.checkAndCreateGolem(level, pos);
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_NONE);
                     return EventResult.pass();
                 }
             }
