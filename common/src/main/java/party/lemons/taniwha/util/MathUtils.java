@@ -1,14 +1,36 @@
 package party.lemons.taniwha.util;
 
+import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 public class MathUtils
 {
     public static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH};
+
+    private static final List<Direction> randomHorizontals = Lists.newArrayList(HORIZONTALS);
+
+    public static Direction randomHorizontal(RandomSource randomSource)
+    {
+        return HORIZONTALS[randomSource.nextInt(HORIZONTALS.length)];
+    }
+
+    public static List<Direction> randomOrderedHorizontals()
+    {
+        Collections.shuffle(randomHorizontals);
+        return randomHorizontals;
+    }
+
+    public static boolean isAdjacentDirection(Direction current, Direction check)
+    {
+        return check != current.getOpposite();
+    }
 
     public static float approachValue(float current, float target, float step)
     {
