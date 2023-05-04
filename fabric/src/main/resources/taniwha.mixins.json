@@ -5,6 +5,7 @@
   "client": [
   ],
   "mixins": [
+    "BlockItemMixin",
     "CropBlockMixin",
     "TBlockMixin"
   ],

@@ -43,6 +43,7 @@ import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.NotNull;
 import party.lemons.taniwha.block.BlockHelper;
 import party.lemons.taniwha.block.TBlockTags;
+import party.lemons.taniwha.hooks.TEvents;
 import party.lemons.taniwha.hooks.block.DispenserBlockHooks;
 
 import java.util.List;
@@ -112,18 +113,15 @@ public class GolemHandler
 
         //Block place event.
         //Checks if placed block is in any of the golemHeadTags, then tries to create it.
-        BlockEvent.PLACE.register((level, pos, state, placer) -> {
+        TEvents.PLACE.register((level, pos, state, placer) -> {
             for(TagKey<Block> tag : golemHeadTags)
             {
                 if(state.is(tag))
                 {
-                    level.setBlock(pos, state, Block.UPDATE_NONE);
                     GolemHandler.checkAndCreateGolem(level, pos);
-                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_NONE);
-                    return EventResult.pass();
+                    return;
                 }
             }
-            return EventResult.pass();
         });
 
         //Load in the dispenser behaviour after tags have loaded

@@ -18,6 +18,7 @@ public class TaniwhaForge {
         EventBuses.registerModEventBus(TConstants.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
         Taniwha.init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(TaniwhaForge::clientSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(TForgeEvents::onPlaceEvent);
     }
 
     public static void clientSetup(FMLClientSetupEvent event)
