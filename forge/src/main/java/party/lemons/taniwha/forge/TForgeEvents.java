@@ -11,8 +11,6 @@ public class TForgeEvents {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onPlaceEvent(BlockEvent.EntityPlaceEvent event) {
 		if (event.getLevel() instanceof Level) {
-			System.out.println("yo");
-
 			TEvents.PLACE.invoker().placeBlock((Level) event.getLevel(), event.getPos(), event.getState(), event.getEntity());
 		}
 	}
