@@ -2,11 +2,14 @@ package party.lemons.taniwha.data.trade.listing;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.Nullable;
+import party.lemons.taniwha.Taniwha;
+import party.lemons.taniwha.util.TagUtil;
 
 public class StandardItemListing extends TItemListing
 {
