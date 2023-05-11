@@ -3,6 +3,9 @@ package party.lemons.taniwha.util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 
+/**
+ * Horizontal Directions with diagonals
+ */
 public enum HorizontalDirection
 {
     NORTH(0, -1, 4, true),

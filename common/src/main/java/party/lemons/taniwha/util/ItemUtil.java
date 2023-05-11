@@ -20,12 +20,19 @@ import java.util.function.Predicate;
 
 public class ItemUtil
 {
+	/*
+		Shrinks an itemstack if the player isn't in creative
+	 */
 	public static void shrinkStack(ItemStack stack, Player player)
 	{
 		if(!player.getAbilities().instabuild)
 			stack.shrink(1);
 	}
 
+	/*
+		Run a consumer on each enchantment on an itemstack
+		allowEmpty to run on empty itemstacks
+	 */
 	public static void forEachEnchantment(Consumer consumer, ItemStack stack, boolean allowEmpty)
 	{
 		if(!stack.isEmpty() || allowEmpty)
@@ -44,6 +51,9 @@ public class ItemUtil
 		}
 	}
 
+	/*
+		Drops a random drop from a given loot table
+	 */
 	public static void dropLootTable(Level level, double x, double y, double z, ResourceLocation table) {
 
 		LootTable lootTable = level.getServer().getLootTables().get(table);
@@ -52,7 +62,10 @@ public class ItemUtil
 		lootTable.getRandomItems(context.create(LootContextParamSets.EMPTY), (i)->spawnItemStack(level, i, x, y, z));
 	}
 
-	private static void spawnItemStack(Level level, ItemStack itemStack, double x, double y, double z)
+	/*
+		Spawns an itemstack with random pop velocity
+	 */
+	public static void spawnItemStack(Level level, ItemStack itemStack, double x, double y, double z)
 	{
 		double itemWidth = EntityType.ITEM.getWidth();
 		double variance = 1.0D - itemWidth;
@@ -69,11 +82,17 @@ public class ItemUtil
 		}
 	}
 
+	/*
+		Assuming an item is in one of the entities hands, gets that hand
+	 */
 	public static InteractionHand getHandPossiblyHolding(LivingEntity entity, Predicate<ItemStack> predicate)
 	{
 		return predicate.test(entity.getMainHandItem()) ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 	}
 
+	/*
+		Run a consumer on each enchantment on an itemstack
+ 	*/
 	public static void forEachEnchantment(Consumer consumer, ItemStack stack)
 	{
 		forEachEnchantment(consumer, stack, false);

@@ -14,6 +14,9 @@ import party.lemons.taniwha.item.TLootContexts;
 
 public class EntityUtil
 {
+	/*
+		Drops an item around an entity
+	 */
 	public static void scatterItemStack(Entity e, ItemStack stack)
 	{
 		Containers.dropItemStack(e.level, e.getX(), e.getY(), e.getZ(), stack);

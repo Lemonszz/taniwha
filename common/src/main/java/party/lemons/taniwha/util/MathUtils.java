@@ -12,26 +12,40 @@ import java.util.UUID;
 
 public class MathUtils
 {
+    //Non vertical directions
     public static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH};
 
-    private static final List<Direction> randomHorizontals = Lists.newArrayList(HORIZONTALS);
-
+    /*
+        Return a random horizontal direction
+     */
     public static Direction randomHorizontal(RandomSource randomSource)
     {
         return HORIZONTALS[randomSource.nextInt(HORIZONTALS.length)];
     }
 
+    /*
+        Gets a list of horizontal directions in a random order.
+        Don't modify the list pls
+     */
     public static List<Direction> randomOrderedHorizontals()
     {
         Collections.shuffle(randomHorizontals);
         return randomHorizontals;
     }
+    private static final List<Direction> randomHorizontals = Lists.newArrayList(HORIZONTALS);
 
+    /*
+        returns if a direction next to the another
+     */
     public static boolean isAdjacentDirection(Direction current, Direction check)
     {
         return check != current.getOpposite();
     }
 
+    /*
+        Returns the current value +/- the step, approaching the target
+        clamps at target.
+     */
     public static float approachValue(float current, float target, float step)
     {
         if(current == target) return target;
@@ -43,6 +57,10 @@ public class MathUtils
         return Math.max(current - step, target);
     }
 
+    /*
+        Returns the current value +/- the step, approaching the target
+        clamps at target.
+    */
     public static double approachValue(double current, double target, double step)
     {
         if(current < target)
@@ -52,6 +70,9 @@ public class MathUtils
         return Math.max(current - step, target);
     }
 
+    /*
+        Shifts a color
+     */
     public static int colourBoost(int color, int rShift, int gShift, int bShift)
     {
         int r = color >> 16 & 0xFF;
@@ -63,6 +84,9 @@ public class MathUtils
         return color;
     }
 
+    /*
+        Rotates a degrees angle towards a point
+     */
     public static float changeAngle(float from, float to, float max)
     {
         float f = Mth.wrapDegrees(to - from);
@@ -88,6 +112,9 @@ public class MathUtils
         return g;
     }
 
+    /*
+        returns a UUID created from a string
+     */
     public static UUID uuidFromString(String string)
     {
         Random random = new Random(string.hashCode());
