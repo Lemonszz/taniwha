@@ -6,10 +6,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -142,8 +139,11 @@ public class WoodBlockFactory
     {
         types.add(Type.SIGN);
         types.add(Type.SIGN_WALL);
+        types.add(Type.HANGING_SIGN);
+        types.add(Type.HANGING_SIGN_WALL);
 
         itemTypes.add(Type.SIGN_ITEM);
+        itemTypes.add(Type.HANGING_SIGN);
 
         return this;
     }
@@ -194,7 +194,7 @@ public class WoodBlockFactory
             if (blockSupplier != null) {
                 ResourceLocation id = type.make(this.modid, name);
 
-                RegistrySupplier<Block> regBlock = party.lemons.taniwha.block.BlockHelper.registerBlock(blockRegister, id, blockSupplier);
+                RegistrySupplier<Block> regBlock = BlockHelper.registerBlock(blockRegister, id, blockSupplier);
                 set(type, regBlock);
 
                 if (type.hasBlockItem) {
@@ -217,12 +217,14 @@ public class WoodBlockFactory
         }
 
         if(types.contains(Type.SIGN)) {
-            Consumer<Block> beConsumer = (b)->{
-                BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, b);
-            };
+            Consumer<Block> regularSign = (b)-> BlockEntityHooks.addAdditionalBlock(BlockEntityType.SIGN, b);
+            Consumer<Block> hangingSign = (b)-> BlockEntityHooks.addAdditionalBlock(BlockEntityType.HANGING_SIGN, b);
 
-            blocks.get(Type.SIGN).listen(beConsumer);
-            blocks.get(Type.SIGN_WALL).listen(beConsumer);
+            blocks.get(Type.SIGN).listen(regularSign);
+            blocks.get(Type.SIGN_WALL).listen(regularSign);
+
+            blocks.get(Type.HANGING_SIGN).listen(hangingSign);
+            blocks.get(Type.HANGING_SIGN_WALL).listen(hangingSign);
         }
         return this;
     }
@@ -230,7 +232,7 @@ public class WoodBlockFactory
     @FunctionalInterface
     private interface TypeBlockSupplier<T>
     {
-        public Supplier<T> getSupplier(WoodBlockFactory factory);
+        Supplier<T> getSupplier(WoodBlockFactory factory);
     }
 
     private static BlockBehaviour.Properties props(BlockBehaviour.Properties props)
@@ -276,6 +278,9 @@ public class WoodBlockFactory
         SIGN("", "sign", false, (f)->()->new StandingSignBlock(propsPlank(f).strength(1F).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).forceSolidOn().sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(BlockBehaviour.Properties.of().mapColor(f.plankColor).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
         SIGN_ITEM("", "sign", false, null, (f)->()->new SignItem(f.properties().stacksTo(16), f.getBlock(Type.SIGN).get(), f.getBlock(Type.SIGN_WALL).get())),
+        HANGING_SIGN("", "hanging_sign", false, (f)->()->new CeilingHangingSignBlock(BlockBehaviour.Properties.of().mapColor(f.plankColor).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava(), f.woodType)),
+        HANGING_SIGN_WALL("", "wall_hanging_sign", false, (f)->()->new WallHangingSignBlock(BlockBehaviour.Properties.of().mapColor(f.plankColor).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava(), f.woodType)),
+        HANGING_SIGN_ITEM("", "hanging_sign", false, null, (f)->()->new HangingSignItem(f.getBlock(Type.HANGING_SIGN).get(), f.getBlock(Type.HANGING_SIGN_WALL).get(), f.properties().stacksTo(16))),
         BOAT("", "boat", false, null, (f)->()->new TBoatItem(f.boatType, false, f.properties().stacksTo(1))),
         CHEST_BOAT("", "chest_boat", false, null, (f)->()->new TBoatItem(f.boatType, true, f.properties().stacksTo(1)));
 
