@@ -30,7 +30,7 @@ jobs:
         uses: meeDamian/github-release@2.0
         with:
           tag: ${{ steps.build.outputs.version }}
-          files: "fabric/build/libs/${{ steps.build.outputs.modid }}-fabric-${{ steps.build.outputs.version }}.jar
+          files: "fabric/build/libs/${{ steps.build.outputs.modid }}-fabric-${{ steps.build.outputs.version }}.jar"
           gzip: false
           name: "${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}"
           token: "${{ secrets.GITHUB_TOKEN }}"
