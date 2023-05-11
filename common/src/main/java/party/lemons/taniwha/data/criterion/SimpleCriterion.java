@@ -1,10 +1,7 @@
 package party.lemons.taniwha.data.criterion;
 
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -17,9 +14,11 @@ public class SimpleCriterion extends SimpleCriterionTrigger<SimpleCriterion.Cond
         ID = location;
     }
 
+
     @Override
-    protected Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite composite, DeserializationContext deserializationContext) {
-        return new Conditions(ID, composite);
+    protected Conditions createInstance(JsonObject jsonObject, ContextAwarePredicate contextAwarePredicate, DeserializationContext deserializationContext)
+    {
+        return new Conditions(ID, contextAwarePredicate);
     }
 
     @Override
@@ -34,8 +33,8 @@ public class SimpleCriterion extends SimpleCriterionTrigger<SimpleCriterion.Cond
 
     public static class Conditions extends AbstractCriterionTriggerInstance
     {
-        public Conditions(ResourceLocation resourceLocation, EntityPredicate.Composite composite) {
-            super(resourceLocation, composite);
+        public Conditions(ResourceLocation resourceLocation, ContextAwarePredicate contextAwarePredicate) {
+            super(resourceLocation, contextAwarePredicate);
         }
     }
 }

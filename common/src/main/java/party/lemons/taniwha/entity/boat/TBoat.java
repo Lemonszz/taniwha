@@ -35,7 +35,7 @@ public class TBoat extends Boat
 
     public TBoat(Boat boatEntity, BoatType type)
     {
-        this(TEntities.T_BOAT.get(), boatEntity.level);
+        this(TEntities.T_BOAT.get(), boatEntity.level());
 
         this.copyPosition(boatEntity);
         setBoatType(type);

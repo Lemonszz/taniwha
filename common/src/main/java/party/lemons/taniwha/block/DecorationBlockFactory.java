@@ -2,11 +2,11 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
@@ -32,20 +32,20 @@ public class DecorationBlockFactory
     private final Consumer<Supplier<Block>> callback;
     private final String modid;
     protected Supplier<Item.Properties> blockItemProperties;
-    protected final CreativeTabRegistry.TabSupplier tabSupplier;
+    protected final RegistrySupplier<CreativeModeTab> creativeTab;
 
-    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, CreativeTabRegistry.TabSupplier tabSupplier)
+    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, RegistrySupplier<CreativeModeTab> creativeTab)
     {
-        this(modid, name, baseBlock, settings, tabSupplier, null);
+        this(modid, name, baseBlock, settings, creativeTab, null);
     }
 
-    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, CreativeTabRegistry.TabSupplier tabSupplier, Consumer<Supplier<Block>> callback)
+    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, RegistrySupplier<CreativeModeTab> creativeTab, Consumer<Supplier<Block>> callback)
     {
         this.modid = modid;
         this.name = name;
         this.settings = settings;
         this.base = baseBlock;
-        this.tabSupplier = tabSupplier;
+        this.creativeTab = creativeTab;
         this.callback = callback;
 
         this.blockItemProperties = Item.Properties::new;
@@ -125,7 +125,7 @@ public class DecorationBlockFactory
             ResourceLocation id = key.make(this.modid, name);
 
             RegistrySupplier<Block> regBlock = party.lemons.taniwha.block.BlockHelper.registerBlock(blockRegister, id, bl);
-            ItemHelper.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), blockItemProperties.get().arch$tab(tabSupplier)));
+            ItemHelper.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), blockItemProperties.get().arch$tab(creativeTab)));
 
             if(callback != null)
             {

@@ -36,12 +36,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
-import net.minecraft.world.level.block.state.predicate.BlockMaterialPredicate;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.NotNull;
-import party.lemons.taniwha.block.BlockHelper;
 import party.lemons.taniwha.block.TBlockTags;
 import party.lemons.taniwha.hooks.TEvents;
 import party.lemons.taniwha.hooks.block.DispenserBlockHooks;
@@ -328,11 +325,11 @@ public class GolemHandler
                 BlockPatternBuilder.start().aisle("~^~", "###", "~#~")
                         .where('^', BlockInWorld.hasState(STANDARD_HEADS))
                         .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.IRON_BLOCK)))
-                        .where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))
-                        ).build(),
+                        .where('~', (block) -> block.getState().isAir())
+                        .build(),
                 BlockPatternBuilder.start().aisle("~ ~", "###", "~#~")
                         .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.IRON_BLOCK))).
-                        where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR)))
+                        where('~', (block) -> block.getState().isAir())
                         .build(),
                 new SummonIronGolemResult()
         );

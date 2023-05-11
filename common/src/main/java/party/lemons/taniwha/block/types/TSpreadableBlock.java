@@ -7,7 +7,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.lighting.LightEngine;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -27,7 +27,7 @@ public class TSpreadableBlock extends TBlock
         BlockPos abovePos = blockPos.above();
         BlockState aboveState = levelReader.getBlockState(abovePos);
 
-        int i = LayerLightEngine.getLightBlockInto(levelReader, blockState, blockPos, aboveState, abovePos, Direction.UP, aboveState.getLightBlock(levelReader, abovePos));
+        int i = LightEngine.getLightBlockInto(levelReader, blockState, blockPos, aboveState, abovePos, Direction.UP, aboveState.getLightBlock(levelReader, abovePos));
         return i < levelReader.getMaxLightLevel();
     }
 

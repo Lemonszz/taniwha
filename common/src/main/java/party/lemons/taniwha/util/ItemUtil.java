@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
@@ -56,9 +57,9 @@ public class ItemUtil
 	 */
 	public static void dropLootTable(Level level, double x, double y, double z, ResourceLocation table) {
 
-		LootTable lootTable = level.getServer().getLootTables().get(table);
+		LootTable lootTable = level.getServer().getLootData().getLootTable(table);
 
-		LootContext.Builder context = new LootContext.Builder((ServerLevel) level).withRandom(level.getRandom());
+		LootParams.Builder context = new LootParams.Builder((ServerLevel) level);
 		lootTable.getRandomItems(context.create(LootContextParamSets.EMPTY), (i)->spawnItemStack(level, i, x, y, z));
 	}
 

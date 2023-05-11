@@ -2,8 +2,12 @@ package party.lemons.taniwha.block;
 
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.block.types.TBlock;
 
@@ -30,5 +34,9 @@ public class BlockHelper {
         registered.listen(POST_REGISTER);
 
         return registered;
+    }
+
+    public static Boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
+        return false;
     }
 }

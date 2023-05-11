@@ -60,8 +60,8 @@ public class TPathBlock extends TBlock
 
     @Override
     public boolean canSurvive(BlockState blockState, LevelReader levelReader, BlockPos blockPos) {
-        BlockState blockState2 = levelReader.getBlockState(blockPos.above());
-        return !blockState2.getMaterial().isSolid() || blockState2.getBlock() instanceof FenceGateBlock;
+        BlockState aboveState = levelReader.getBlockState(blockPos.above());
+        return !aboveState.isSolid() || aboveState.getBlock() instanceof FenceGateBlock;
     }
 
     @Override

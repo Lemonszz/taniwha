@@ -23,10 +23,10 @@ public class WearArmorCriterion extends SimpleCriterionTrigger<WearArmorCriterio
     }
 
     @Override
-    protected Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite composite, DeserializationContext deserializationContext) {
+    protected Conditions createInstance(JsonObject jsonObject, ContextAwarePredicate contextAwarePredicate, DeserializationContext deserializationContext) {
 
         ItemPredicate itemPredicates = ItemPredicate.fromJson(jsonObject.get("item"));
-        return new Conditions(ID, composite, itemPredicates);
+        return new Conditions(ID, contextAwarePredicate, itemPredicates);
     }
 
     public void trigger(ServerPlayer player)
@@ -46,8 +46,8 @@ public class WearArmorCriterion extends SimpleCriterionTrigger<WearArmorCriterio
         private final ItemPredicate item;
 
 
-        public Conditions(ResourceLocation resourceLocation, EntityPredicate.Composite composite, ItemPredicate itemPredicate) {
-            super(resourceLocation, composite);
+        public Conditions(ResourceLocation resourceLocation, ContextAwarePredicate contextAwarePredicate, ItemPredicate itemPredicate) {
+            super(resourceLocation, contextAwarePredicate);
 
             this.item = itemPredicate;
         }
