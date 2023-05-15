@@ -1,4 +1,4 @@
-package party.lemons.taniwha.mixin.block.holders;
+package party.lemons.taniwha.fabric.mixin;
 
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.properties.WoodType;
