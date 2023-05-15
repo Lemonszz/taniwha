@@ -317,4 +317,7 @@ public class WoodBlockFactory
             return new ResourceLocation(modid, s);
         }
     }
+
+    //loop through every BlockPos in a radius
+
 }
