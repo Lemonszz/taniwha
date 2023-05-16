@@ -143,7 +143,7 @@ public class WoodBlockFactory
         types.add(Type.HANGING_SIGN_WALL);
 
         itemTypes.add(Type.SIGN_ITEM);
-        itemTypes.add(Type.HANGING_SIGN);
+        itemTypes.add(Type.HANGING_SIGN_ITEM);
 
         return this;
     }

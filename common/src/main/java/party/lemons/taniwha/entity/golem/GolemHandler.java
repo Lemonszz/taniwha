@@ -328,8 +328,8 @@ public class GolemHandler
                         .where('~', (block) -> block.getState().isAir())
                         .build(),
                 BlockPatternBuilder.start().aisle("~ ~", "###", "~#~")
-                        .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.IRON_BLOCK))).
-                        where('~', (block) -> block.getState().isAir())
+                        .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.IRON_BLOCK)))
+                        .where('~', (block) -> block.getState().isAir())
                         .build(),
                 new SummonIronGolemResult()
         );
