@@ -1,12 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
-loom {
-    forge {
-        mixinConfig "taniwha-common.mixins.json"
-        mixinConfig "taniwha.mixins.json"
-    }
-}
 
 architectury {
     platformSetupLoomIde()
@@ -19,6 +13,9 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+
+        mixinConfig "taniwha-common.mixins.json"
+        mixinConfig "taniwha.mixins.json"
     }
 }
 
