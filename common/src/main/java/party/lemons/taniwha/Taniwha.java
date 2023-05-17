@@ -10,6 +10,7 @@ import party.lemons.taniwha.client.model.ModelLoaderRegistry;
 import party.lemons.taniwha.config.TaniwhaConfig;
 import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.data.CompostReloadListener;
+import party.lemons.taniwha.data.criterion.TAdvancements;
 import party.lemons.taniwha.data.trade.TradeListReloadListener;
 import party.lemons.taniwha.data.trade.listing.TradeTypes;
 import party.lemons.taniwha.entity.TEntities;
@@ -28,6 +29,7 @@ public class Taniwha
         TBlockTags.init();
         TNetwork.init();
         TradeTypes.init();
+        TAdvancements.init();
         TStructureProcessors.init();
 
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new BrewingFuelReloadListener());
