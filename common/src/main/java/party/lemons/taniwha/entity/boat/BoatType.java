@@ -49,9 +49,8 @@ public class BoatType
         return "chestboat/" + id.getPath();
     }
 
-    public static class BoatDispenseItemBehavior extends DefaultDispenseItemBehavior
-    {
-        private final DefaultDispenseItemBehavior defaultDispenseItemBehavior;
+    public static class BoatDispenseItemBehavior extends DefaultDispenseItemBehavior {
+        private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
         private final Supplier<BoatType> type;
         private final boolean isChestBoat;
 
@@ -59,40 +58,43 @@ public class BoatType
             this(type, false);
         }
 
-        public BoatDispenseItemBehavior(Supplier<BoatType> type, boolean hasChest) {
-            this.defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
+        public BoatDispenseItemBehavior(Supplier<BoatType> type, boolean isChestBoat) {
             this.type = type;
-            this.isChestBoat = hasChest;
+            this.isChestBoat = isChestBoat;
         }
 
-        public ItemStack execute(BlockSource pos, ItemStack stack) {
-            Direction direction = pos.getBlockState().getValue(DispenserBlock.FACING);
-            Level level = pos.getLevel();
-            double d = pos.x() + (double)((float)direction.getStepX() * 1.125F);
-            double e = pos.y() + (double)((float)direction.getStepY() * 1.125F);
-            double f = pos.z() + (double)((float)direction.getStepZ() * 1.125F);
-            BlockPos blockPos = pos.getPos().relative(direction);
-            double g;
-            if (level.getFluidState(blockPos).is(FluidTags.WATER)) {
-                g = 1.0D;
-            } else {
-                if (!level.getBlockState(blockPos).isAir() || !level.getFluidState(blockPos.below()).is(FluidTags.WATER)) {
-                    return this.defaultDispenseItemBehavior.dispense(pos, stack);
+        @Override
+        public ItemStack execute(BlockSource blockSource, ItemStack itemStack) {
+            Direction direction = blockSource.getBlockState().getValue(DispenserBlock.FACING);
+            Level level = blockSource.getLevel();
+            double xx = blockSource.x() + (double)((float)direction.getStepX() * 1.125F);
+            double yy = blockSource.y() + (double)((float)direction.getStepY() * 1.125F);
+            double zz = blockSource.z() + (double)((float)direction.getStepZ() * 1.125F);
+            BlockPos placePosition = blockSource.getPos().relative(direction);
+            double yOffset;
+            if (level.getFluidState(placePosition).is(FluidTags.WATER)) {
+                yOffset = 1.0;
+            }
+            else
+            {
+                if (!level.getBlockState(placePosition).isAir() || !level.getFluidState(placePosition.below()).is(FluidTags.WATER)) {
+                    return this.defaultDispenseItemBehavior.dispense(blockSource, itemStack);
                 }
 
-                g = 0.0D;
+                yOffset = 0.0;
             }
 
-            TBoat boat = this.isChestBoat ? new TChestBoat(level, d, e + g, f) : new TBoat(level, d, e + g, f);
+            TBoat boat = (TBoat) (this.isChestBoat ? new TChestBoat(level, xx, yy + yOffset, zz) : new TBoat(level, xx, yy + yOffset, zz));
             boat.setBoatType(this.type.get());
             boat.setYRot(direction.toYRot());
-            level.addFreshEntity((Entity)boat);
-            stack.shrink(1);
-            return stack;
+            level.addFreshEntity(boat);
+            itemStack.shrink(1);
+            return itemStack;
         }
 
-        protected void playSound(BlockSource arg) {
-            arg.getLevel().levelEvent(1000, arg.getPos(), 0);
+        @Override
+        protected void playSound(BlockSource blockSource) {
+            blockSource.getLevel().levelEvent(1000, blockSource.getPos(), 0);
         }
     }
 
