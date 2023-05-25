@@ -35,13 +35,4 @@ public class BoatTypes
         }
         return null;
     }
-
-    public static void registerModelLayers()
-    {
-        for(BoatType type : TYPES)
-        {
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getModelLocation()), "main"), BoatModel::createBodyModel);
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
-        }
-    }
 }

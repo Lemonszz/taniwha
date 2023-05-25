@@ -1,5 +1,9 @@
 package party.lemons.taniwha.entity.boat;
 
+import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
@@ -13,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import party.lemons.taniwha.TConstants;
 
 import java.util.function.Supplier;
 
@@ -30,6 +35,8 @@ public class BoatType
         this.chestItem = chestBoatItem;
 
         BoatTypes.TYPES.add(this);
+        EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), BoatModel::createBodyModel);
+        EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
     }
 
     public ResourceLocation getTexture(boolean hasChest)
