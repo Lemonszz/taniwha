@@ -11,15 +11,13 @@ public class TaniwhaClient
 {
     public static void init()
     {
-        BoatTypes.registerModelLayers();
         registerModels();
-
     }
 
     public static void registerModels()
     {
         EnvExecutor.runInEnv(Env.CLIENT, ()->()-> {
-
+            BoatTypes.registerModelLayers();
             EntityRendererRegistry.register(TEntities.T_BOAT, c -> new TBoatRender(c, false));
             EntityRendererRegistry.register(TEntities.T_CHEST_BOAT, c -> new TBoatRender(c, true));
         });
