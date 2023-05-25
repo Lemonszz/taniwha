@@ -1,6 +1,8 @@
 package party.lemons.taniwha.entity.boat;
 
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
+import dev.architectury.utils.Env;
+import dev.architectury.utils.EnvExecutor;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -35,8 +37,10 @@ public class BoatType
         this.chestItem = chestBoatItem;
 
         BoatTypes.TYPES.add(this);
-        EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), BoatModel::createBodyModel);
-        EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
+        EnvExecutor.runInEnv(Env.CLIENT, ()->()->{
+            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), BoatModel::createBodyModel);
+            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
+        });
     }
 
     public ResourceLocation getTexture(boolean hasChest)
