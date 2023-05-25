@@ -14,6 +14,7 @@ import party.lemons.taniwha.data.criterion.TAdvancements;
 import party.lemons.taniwha.data.trade.TradeListReloadListener;
 import party.lemons.taniwha.data.trade.listing.TradeTypes;
 import party.lemons.taniwha.entity.TEntities;
+import party.lemons.taniwha.entity.boat.BoatTypes;
 import party.lemons.taniwha.entity.golem.GolemHandler;
 import party.lemons.taniwha.hooks.entity.TSpawnPlacement;
 import party.lemons.taniwha.level.structure.TStructureProcessors;
@@ -25,6 +26,7 @@ public class Taniwha
 
     public static void init()
     {
+        BoatTypes.init();
         TEntities.init();
         TBlockTags.init();
         TNetwork.init();
