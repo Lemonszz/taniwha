@@ -37,6 +37,8 @@ public class BoatType
         this.chestItem = chestBoatItem;
 
         BoatTypes.TYPES.add(this);
+        BoatTypes.TYPES_MAP.put(id, this);
+
         EnvExecutor.runInEnv(Env.CLIENT, ()->()->{
             EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), BoatModel::createBodyModel);
             EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);

@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
@@ -16,7 +17,7 @@ import party.lemons.taniwha.entity.TEntities;
 
 public class TBoat extends Boat
 {
-    private static final EntityDataAccessor<Integer> BOAT_TYPE = SynchedEntityData.defineId(TBoat.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<String> BOAT_TYPE = SynchedEntityData.defineId(TBoat.class, EntityDataSerializers.STRING);
     private static final String TAG_TYPE = "NewType";
 
     public TBoat(EntityType<? extends Boat> entityType, Level world)
@@ -45,17 +46,20 @@ public class TBoat extends Boat
     protected void defineSynchedData()
     {
         super.defineSynchedData();
-        this.entityData.define(BOAT_TYPE, 0);
+        this.entityData.define(BOAT_TYPE, BoatTypes.ACACIA.id.toString());
     }
 
     public void setBoatType(BoatType type)
     {
-        this.getEntityData().set(BOAT_TYPE, BoatTypes.TYPES.indexOf(type));
+        if(type == null)
+            return;
+
+        this.getEntityData().set(BOAT_TYPE, type.id.toString());
     }
 
     public BoatType getNewBoatType()
     {
-        return BoatTypes.TYPES.get(this.getEntityData().get(BOAT_TYPE));
+        return BoatTypes.TYPES_MAP.get(new ResourceLocation(this.getEntityData().get(BOAT_TYPE)));
     }
 
     @Override
@@ -70,11 +74,15 @@ public class TBoat extends Boat
         {
             this.setBoatType(BoatTypes.TYPES.get(tag.getInt(TAG_TYPE)));
         }
+        else if(tag.contains(TAG_TYPE, Tag.TAG_STRING))
+        {
+            this.setBoatType(BoatTypes.TYPES_MAP.get(new ResourceLocation(tag.getString(TAG_TYPE))));
+        }
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putInt(TAG_TYPE, BoatTypes.TYPES.indexOf(this.getNewBoatType()));
+        tag.putString(TAG_TYPE, getNewBoatType().id.toString());
     }
 
 
