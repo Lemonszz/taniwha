@@ -1,8 +1,10 @@
 package party.lemons.taniwha.entity.boat;
 
+import dev.architectury.extensions.network.EntitySpawnExtension;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,7 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import party.lemons.taniwha.entity.TEntities;
 
-public class TBoat extends Boat
+public class TBoat extends Boat implements EntitySpawnExtension
 {
     private static final EntityDataAccessor<String> BOAT_TYPE = SynchedEntityData.defineId(TBoat.class, EntityDataSerializers.STRING);
     private static final String TAG_TYPE = "NewType";
@@ -34,19 +36,17 @@ public class TBoat extends Boat
         this.zo = z;
     }
 
-    public TBoat(Boat boatEntity, BoatType type)
-    {
-        this(TEntities.T_BOAT.get(), boatEntity.level);
-
-        this.copyPosition(boatEntity);
-        setBoatType(type);
-    }
-
     @Override
     protected void defineSynchedData()
     {
         super.defineSynchedData();
         this.entityData.define(BOAT_TYPE, BoatTypes.ACACIA.id.toString());
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor)
+    {
+        super.onSyncedDataUpdated(entityDataAccessor);
     }
 
     public void setBoatType(BoatType type)
@@ -89,5 +89,17 @@ public class TBoat extends Boat
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkManager.createAddEntityPacket(this);
+    }
+
+    @Override
+    public void saveAdditionalSpawnData(FriendlyByteBuf buf)
+    {
+        buf.writeUtf(getNewBoatType().id.toString());
+    }
+
+    @Override
+    public void loadAdditionalSpawnData(FriendlyByteBuf buf)
+    {
+        setBoatType(BoatTypes.TYPES_MAP.get(new ResourceLocation(buf.readUtf())));
     }
 }
