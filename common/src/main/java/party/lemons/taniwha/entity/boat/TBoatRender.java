@@ -7,6 +7,8 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.model.ListModel;
+import net.minecraft.client.model.WaterPatchModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,6 +17,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.vehicle.Boat;
 import org.joml.Quaternionf;
 import party.lemons.taniwha.TConstants;
 
@@ -22,9 +25,8 @@ import java.util.Map;
 
 public class TBoatRender extends EntityRenderer<TBoat>
 {
-    private final Map<BoatType, Pair<ResourceLocation, BoatModel>> boatResources = Maps.newHashMap();
+    private final Map<BoatType, Pair<ResourceLocation, ListModel<Boat>>> boatResources = Maps.newHashMap();
     private final Map<BoatType, ResourceLocation> textures = Maps.newHashMap();
-    private final EntityRendererProvider.Context ctx;
     private final boolean chest;
 
     public TBoatRender(EntityRendererProvider.Context context, boolean chest)
@@ -33,10 +35,9 @@ public class TBoatRender extends EntityRenderer<TBoat>
         this.shadowRadius = 0.8F;
         this.chest = chest;
 
-        this.ctx = context;
         for(BoatType boatType : BoatTypes.TYPES)
         {
-            boatResources.put(boatType, Pair.of(boatType.getTexture(chest), chest ? new ChestBoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, boatType.getChestModelLocation()), "main"))) : new BoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, boatType.getModelLocation()), "main")))));
+            boatResources.put(boatType, Pair.of(boatType.getTexture(chest), boatType.shape.createModel(context, boatType, chest)));
         }
     }
 
@@ -68,8 +69,8 @@ public class TBoatRender extends EntityRenderer<TBoat>
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
 
-        Pair<ResourceLocation, BoatModel> data = boatResources.get(boat.getNewBoatType());
-        BoatModel model = data.getSecond();
+        Pair<ResourceLocation, ListModel<Boat>> data = boatResources.get(boat.getNewBoatType());
+        ListModel<Boat> model = data.getSecond();
         ResourceLocation texture = data.getFirst();
 
         model.setupAnim(boat, g, 0.0F, -0.1F, 0.0F, 0.0F);
@@ -77,7 +78,9 @@ public class TBoatRender extends EntityRenderer<TBoat>
         model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
         if (!boat.isUnderWater()) {
             VertexConsumer vertexConsumer2 = multiBufferSource.getBuffer(RenderType.waterMask());
-            model.waterPatch().render(poseStack, vertexConsumer2, i, OverlayTexture.NO_OVERLAY);
+            if (model instanceof WaterPatchModel waterPatchModel) {
+                waterPatchModel.waterPatch().render(poseStack, vertexConsumer2, i, OverlayTexture.NO_OVERLAY);
+            }
         }
         poseStack.popPose();
         super.render(boat, f, g, poseStack, multiBufferSource, i);

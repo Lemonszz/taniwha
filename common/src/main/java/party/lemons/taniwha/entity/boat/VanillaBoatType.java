@@ -8,9 +8,9 @@ public class VanillaBoatType extends BoatType
 {
     private final Boat.Type vanillaType;
 
-    public VanillaBoatType(ResourceLocation id, Boat.Type type, Item boatitem, Item chestItem)
+    public VanillaBoatType(ResourceLocation id, BoatShape shape, Boat.Type type, Item boatitem, Item chestItem)
     {
-        super(id, ()->boatitem, ()->chestItem);
+        super(id, shape, ()->boatitem, ()->chestItem);
         this.vanillaType = type;
     }
 

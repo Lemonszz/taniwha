@@ -28,19 +28,21 @@ public class BoatType
     public final ResourceLocation id;
     public final Supplier<ItemLike> item;
     public final Supplier<ItemLike> chestItem;
+    public final BoatShape shape;
 
 
-    public BoatType(ResourceLocation id, Supplier<ItemLike> item, Supplier<ItemLike> chestBoatItem)
+    public BoatType(ResourceLocation id, BoatShape shape, Supplier<ItemLike> item, Supplier<ItemLike> chestBoatItem)
     {
         this.id = id;
         this.item = item;
         this.chestItem = chestBoatItem;
+        this.shape = shape;
 
         BoatTypes.TYPES.add(this);
         BoatTypes.TYPES_MAP.put(id, this);
         EnvExecutor.runInEnv(Env.CLIENT, ()->()->{
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), BoatModel::createBodyModel);
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
+            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), shape.getLayerDefinition());
+            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), shape.getChestLayerDefinition());
         });
     }
 

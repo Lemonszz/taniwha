@@ -51,6 +51,12 @@ public class TBoat extends Boat implements EntitySpawnExtension
         this.getEntityData().set(BOAT_TYPE, type.id.toString());
     }
 
+    @Override
+    public double getPassengersRidingOffset()
+    {
+        return getNewBoatType().shape.getPassengersRidingOffset();
+    }
+
     public BoatType getNewBoatType()
     {
         return BoatTypes.TYPES_MAP.get(new ResourceLocation(this.getEntityData().get(BOAT_TYPE)));

@@ -20,12 +20,18 @@ public class BoatTypes
     public static List<BoatType> TYPES = Lists.newArrayList();
     public static Map<ResourceLocation, BoatType> TYPES_MAP = Maps.newHashMap();
 
-    public static final BoatType ACACIA = new VanillaBoatType(Taniwha.id("acacia"), Boat.Type.ACACIA, Items.ACACIA_BOAT, Items.ACACIA_CHEST_BOAT);
-    public static final BoatType BIRCH = new VanillaBoatType(Taniwha.id("birch"), Boat.Type.BIRCH, Items.BIRCH_BOAT, Items.BIRCH_CHEST_BOAT);
-    public static final BoatType DARK_OAK = new VanillaBoatType(Taniwha.id("dark_oak"), Boat.Type.DARK_OAK, Items.DARK_OAK_BOAT, Items.DARK_OAK_CHEST_BOAT);
-    public static final BoatType JUNGLE = new VanillaBoatType(Taniwha.id("jungle"), Boat.Type.JUNGLE, Items.JUNGLE_BOAT, Items.JUNGLE_CHEST_BOAT);
-    public static final BoatType OAK = new VanillaBoatType(Taniwha.id("oak"), Boat.Type.OAK, Items.OAK_BOAT, Items.OAK_CHEST_BOAT);
-    public static final BoatType SPRUCE = new VanillaBoatType(Taniwha.id("spruce"), Boat.Type.SPRUCE, Items.SPRUCE_BOAT, Items.SPRUCE_CHEST_BOAT);
+    public static final BoatShape REGULAR_SHAPE = new BoatShape();
+    public static final BoatShape RAFT_SHAPE = new RaftBoatShape();
+
+    public static final BoatType ACACIA = new VanillaBoatType(Taniwha.id("acacia"), REGULAR_SHAPE, Boat.Type.ACACIA, Items.ACACIA_BOAT, Items.ACACIA_CHEST_BOAT);
+    public static final BoatType BIRCH = new VanillaBoatType(Taniwha.id("birch"), REGULAR_SHAPE, Boat.Type.BIRCH, Items.BIRCH_BOAT, Items.BIRCH_CHEST_BOAT);
+    public static final BoatType DARK_OAK = new VanillaBoatType(Taniwha.id("dark_oak"), REGULAR_SHAPE, Boat.Type.DARK_OAK, Items.DARK_OAK_BOAT, Items.DARK_OAK_CHEST_BOAT);
+    public static final BoatType JUNGLE = new VanillaBoatType(Taniwha.id("jungle"), REGULAR_SHAPE, Boat.Type.JUNGLE, Items.JUNGLE_BOAT, Items.JUNGLE_CHEST_BOAT);
+    public static final BoatType OAK = new VanillaBoatType(Taniwha.id("oak"), REGULAR_SHAPE, Boat.Type.OAK, Items.OAK_BOAT, Items.OAK_CHEST_BOAT);
+    public static final BoatType SPRUCE = new VanillaBoatType(Taniwha.id("spruce"), REGULAR_SHAPE, Boat.Type.SPRUCE, Items.SPRUCE_BOAT, Items.SPRUCE_CHEST_BOAT);
+    public static final BoatType MANGROVE = new VanillaBoatType(Taniwha.id("mangrove"), REGULAR_SHAPE, Boat.Type.MANGROVE, Items.MANGROVE_BOAT, Items.MANGROVE_CHEST_BOAT);
+    public static final BoatType CHERRY = new VanillaBoatType(Taniwha.id("cherry"), REGULAR_SHAPE,  Boat.Type.CHERRY, Items.CHERRY_BOAT, Items.CHERRY_CHEST_BOAT);
+    public static final BoatType BAMBOO = new VanillaBoatType(Taniwha.id("bamboo"), RAFT_SHAPE,  Boat.Type.BAMBOO, Items.BAMBOO_RAFT, Items.BAMBOO_CHEST_RAFT);
 
     public static void init(){
         //nofu
