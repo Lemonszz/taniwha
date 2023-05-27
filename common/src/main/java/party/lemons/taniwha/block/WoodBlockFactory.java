@@ -71,7 +71,7 @@ public class WoodBlockFactory
         this.callback = callback;
         this.tabSupplier = tabSupplier;
 
-        woodType = new WoodType(name, setType);
+        woodType = new WoodType(modid + ":" + name, setType);
         WoodType.register(woodType);
         types.add(Type.LOG);
         types.add(Type.STRIPPED_LOG);
