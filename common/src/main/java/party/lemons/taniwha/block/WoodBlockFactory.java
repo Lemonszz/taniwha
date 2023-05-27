@@ -2,10 +2,12 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -69,7 +71,7 @@ public class WoodBlockFactory
         this.callback = callback;
         this.creativeTab = creativeTab;
 
-        woodType = new WoodType(name, setType);
+        woodType = new WoodType(modid + ":" + name, setType);
         WoodType.register(woodType);
         types.add(Type.LOG);
         types.add(Type.STRIPPED_LOG);
@@ -317,7 +319,5 @@ public class WoodBlockFactory
             return new ResourceLocation(modid, s);
         }
     }
-
-    //loop through every BlockPos in a radius
 
 }
