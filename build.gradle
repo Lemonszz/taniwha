@@ -49,6 +49,7 @@ allprojects {
     java {
     }
 
+    /*
     publishing {
         publications {
             mavenJava(MavenPublication) {
@@ -59,7 +60,7 @@ allprojects {
         repositories {
             mavenLocal()
         }
-    }
+    }*/
 }
 
 task setupActions() {
