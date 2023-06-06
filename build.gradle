@@ -48,6 +48,18 @@ allprojects {
 
     java {
     }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = rootProject.archives_base_name + "-" + project.name
+                from components.java
+            }
+        }
+        repositories {
+            mavenLocal()
+        }
+    }
 }
 
 task setupActions() {
