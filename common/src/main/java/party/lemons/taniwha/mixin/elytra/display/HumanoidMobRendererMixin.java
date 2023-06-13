@@ -26,7 +26,7 @@ public abstract class HumanoidMobRendererMixin<T extends Mob, M extends Humanoid
 	public void onConstruct(EntityRendererProvider.Context context, M humanoidModel, float f, float g, float h, float i, CallbackInfo cbi)
 	{
 		TClientEvents.LAYERS.forEach(l->{
-			addLayer((RenderLayer<T, M>) l.addLayer((ArmorStandRenderer)(Object)this, context.getModelSet()));
+			addLayer((RenderLayer<T, M>) l.addLayer((HumanoidMobRenderer)(Object)this, context.getModelSet()));
 		});
 	}
 }

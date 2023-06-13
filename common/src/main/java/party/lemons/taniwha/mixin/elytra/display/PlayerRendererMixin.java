@@ -21,7 +21,7 @@ public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractC
 	public void onConstruct(EntityRendererProvider.Context context, boolean bl, CallbackInfo cbi)
 	{
 		TClientEvents.LAYERS.forEach(l->{
-			addLayer((RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) l.addLayer((ArmorStandRenderer)(Object)this, context.getModelSet()));
+			addLayer((RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) l.addLayer((PlayerRenderer)(Object)this, context.getModelSet()));
 		});
 	}
 
