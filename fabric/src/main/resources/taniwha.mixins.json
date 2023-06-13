@@ -8,8 +8,9 @@
   "mixins": [
     "BlockItemMixin",
     "CropBlockMixin",
+    "FenceGateBlockMixin",
     "TBlockMixin",
-    "FenceGateBlockMixin"
+    "elytra.TElytraItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

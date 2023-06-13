@@ -20,6 +20,7 @@ public class TaniwhaTags
 
 	//Items in this tag, when equipped in the foot slot will allow the wearer to walk on powdered snow
 	public static final TagKey<Item> POWDERED_SNOW_WALKER = TagKey.create(Registries.ITEM, Taniwha.id("powdered_snow_walker"));
+	public static final TagKey<Item> T_ELYTRA = TagKey.create(Registries.ITEM, Taniwha.id("taniwha_elytra"));
 
 	//Common Tags
 

@@ -9,13 +9,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
-public interface TEvents
-{
-	Event<Place> PLACE = EventFactory.createLoop();
+import java.util.List;
 
-	interface Place {
-		void placeBlock(Level level, BlockPos pos, BlockState state, @Nullable Entity placer);
+public interface TClientEvents
+{
+	List<AddHumanoidLayer> LAYERS = Lists.newArrayList();
+
+	interface AddHumanoidLayer{
+		RenderLayer<?, ?> addLayer(RenderLayerParent<?, ?> parent, EntityModelSet modelset);
 	}
 }
