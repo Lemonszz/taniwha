@@ -16,6 +16,7 @@
   ],
   "mixins": [
     "advancement.InventoryChangeTriggerMixin",
+    "anvil.AnvilMenuMixin",
     "block.BlockPropertiesMixin",
     "block.BushBlockMixin",
     "block.CropBlockMixin",
