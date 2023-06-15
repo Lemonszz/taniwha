@@ -20,6 +20,9 @@
     ],
     "client": [
       "party.lemons.taniwha.fabric.TaniwhaFabricClient"
+    ],
+    "rei_client":[
+      "party.lemons.taniwha.fabric.compat.rei.TaniwhaReiFabricClient"
     ]
   },
   "mixins": [

@@ -29,4 +29,14 @@ public class AnvilRecipes {
     public static Collection<AnvilRecipe> getRecipes(){
         return RECIPES.values();
     }
+
+    public static ResourceLocation getID(AnvilRecipe recipe)
+    {
+        for (Map.Entry<ResourceLocation, AnvilRecipe> entry : RECIPES.entrySet()) {
+            if (entry.getValue().equals(recipe)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 }

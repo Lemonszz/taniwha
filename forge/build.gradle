@@ -34,6 +34,8 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
 
     annotationProcessor(group: 'com.github.LlamaLad7', name: 'MixinExtras', version: "0.1.1")
     forgeRuntimeLibrary(include(group: 'com.github.LlamaLad7', name: 'MixinExtras', version: "0.1.1"))
