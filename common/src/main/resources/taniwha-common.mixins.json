@@ -20,6 +20,7 @@
     "block.BlockPropertiesMixin",
     "block.BushBlockMixin",
     "block.CropBlockMixin",
+    "block.StemBlockMixin",
     "block.FireBlockMixin",
     "block.PointedDripstoneBlockMixin",
     "block.PoweredSnowBlockMixin",
