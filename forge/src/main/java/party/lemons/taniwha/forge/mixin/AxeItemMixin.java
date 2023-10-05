@@ -18,14 +18,12 @@ public class AxeItemMixin
     /*
             This is essentially a copy of common/AxeItemMixin, but for the forge specific stuff
      */
-
     @Shadow
     @Mutable
     @Final
     protected static Map<Block, Block> STRIPPABLES;
     @Unique
     private static boolean tf_stripInit = false;
-
 
     @Inject(at = @At("HEAD"), method = "getAxeStrippingState", remap = false)
     private static  void getAxeStrippingState(BlockState originalState, CallbackInfoReturnable<BlockState> cbi)

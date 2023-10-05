@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Used to access the UseOnContext during bonemealing.
- * Implement the vanilla Bonemealable methods with default behaviour if no context is found.
+ * Implement the vanilla Bonemealable methods with default behaviour if no modelSet is found.
  */
 public interface ContextBonemealableBlock extends BonemealableBlock
 {
