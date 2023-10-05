@@ -13,7 +13,6 @@ public class TForgeClientEvents
     @SubscribeEvent
     public static void addLayers(EntityRenderersEvent.AddLayers event)
     {
-        System.out.println("Init render layers");
         for(RenderLayerInjector.LayerInject inject : RenderLayerInjector.injects)
         {
             LivingEntityRenderer renderer = event.getRenderer(inject.type());
