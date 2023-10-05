@@ -3,10 +3,7 @@ package party.lemons.taniwha.forge.mixin;
 import com.google.common.collect.Maps;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -26,13 +23,14 @@ public class AxeItemMixin
     @Mutable
     @Final
     protected static Map<Block, Block> STRIPPABLES;
-    private static boolean t_stripInit = false;
+    @Unique
+    private static boolean tf_stripInit = false;
 
 
-    @Inject(at = @At("HEAD"), method = "getAxeStrippingState")
+    @Inject(at = @At("HEAD"), method = "getAxeStrippingState", remap = false)
     private static  void getAxeStrippingState(BlockState originalState, CallbackInfoReturnable<BlockState> cbi)
     {
-        if(!t_stripInit)
+        if(!tf_stripInit)
         {
             Map<Block, Block> newMap = Maps.newHashMap();
             newMap.putAll(STRIPPABLES);
@@ -40,6 +38,7 @@ public class AxeItemMixin
             StrippableHooks.insertTo(newMap);
 
             STRIPPABLES = newMap;
+            tf_stripInit = true;
         }
     }
 }

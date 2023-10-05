@@ -35,6 +35,7 @@ public class AxeItemMixin
             StrippableHooks.insertTo(newMap);
 
             STRIPPABLES = newMap;
+            t_stripInit = true;
         }
     }
 }
