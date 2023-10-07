@@ -2,6 +2,7 @@ package party.lemons.taniwha.block;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
@@ -11,9 +12,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.types.TSlabBlock;
 import party.lemons.taniwha.block.types.TStairBlock;
 import party.lemons.taniwha.item.ItemHelper;
+import party.lemons.taniwha.registry.Modifier;
 
 import java.util.List;
 import java.util.Map;
@@ -29,17 +32,18 @@ public class DecorationBlockFactory
     private final String name;
     private final BlockBehaviour.Properties settings;
     private final Supplier<Block> base;
-    private final Consumer<Supplier<Block>> callback;
+    private final Consumer<Pair<RegistrySupplier<Block>, RegistrySupplier<Item>>> callback;
     private final String modid;
     protected Supplier<Item.Properties> blockItemProperties;
     protected final RegistrySupplier<CreativeModeTab> creativeTab;
+    private BlockModifier[] modifiers;
 
     public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, RegistrySupplier<CreativeModeTab> creativeTab)
     {
         this(modid, name, baseBlock, settings, creativeTab, null);
     }
 
-    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, RegistrySupplier<CreativeModeTab> creativeTab, Consumer<Supplier<Block>> callback)
+    public DecorationBlockFactory(String modid, String name, Supplier<Block> baseBlock, Block.Properties settings, RegistrySupplier<CreativeModeTab> creativeTab, Consumer<Pair<RegistrySupplier<Block>, RegistrySupplier<Item>>> callback)
     {
         this.modid = modid;
         this.name = name;
@@ -66,6 +70,11 @@ public class DecorationBlockFactory
     public DecorationBlockFactory wall()
     {
         types.add(DecorationBlockFactory.Type.WALL);
+        return this;
+    }
+
+    public DecorationBlockFactory modifiers(BlockModifier... modifier){
+        this.modifiers = modifier;
         return this;
     }
 
@@ -107,13 +116,23 @@ public class DecorationBlockFactory
             switch (type)
             {
                 case SLAB -> {
-                    set(type, ()->new TSlabBlock(this.settings));
+                    set(type, ()->{
+                        TSlabBlock block = new TSlabBlock(this.settings);
+                        if(modifiers != null)
+                            return block.modifiers(modifiers);
+                        return block;
+                    });
                 }
                 case STAIR -> {
-                    set(type, ()->new TStairBlock(base.get().defaultBlockState(), this.settings));
+                    set(type, ()->{
+                        TStairBlock block = new TStairBlock(base.get().defaultBlockState(), this.settings);
+                        if(modifiers != null)
+                            return block.modifiers(modifiers);
+                        return block;
+                    });
                 }
                 case WALL -> {
-                    set(type, ()->new WallBlock(this.settings));
+                    set(type, ()->new WallBlock(this.settings));    //TODO: TWallBlock?
                 }
             }
         }
@@ -124,12 +143,12 @@ public class DecorationBlockFactory
 
             ResourceLocation id = key.make(this.modid, name);
 
-            RegistrySupplier<Block> regBlock = party.lemons.taniwha.block.BlockHelper.registerBlock(blockRegister, id, bl);
-            ItemHelper.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), blockItemProperties.get().arch$tab(creativeTab)));
+            RegistrySupplier<Block> regBlock = BlockHelper.registerBlock(blockRegister, id, bl);
+            RegistrySupplier<Item> regItem = ItemHelper.registerItem(itemRegister, id, ()->new BlockItem(regBlock.get(), blockItemProperties.get().arch$tab(creativeTab)));
 
             if(callback != null)
             {
-                callback.accept(bl);
+                callback.accept(Pair.of(regBlock, regItem));
             }
         }
 
