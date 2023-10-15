@@ -41,7 +41,7 @@ public final class CustomUseAnimationRegistry
 
         }
 
-        private void applyItemArmTransform(PoseStack pose, HumanoidArm arm, float bob) {
+        protected void applyItemArmTransform(PoseStack pose, HumanoidArm arm, float bob) {
             int xDirection = arm == HumanoidArm.RIGHT ? 1 : -1;
             pose.translate((float)xDirection * 0.56F, -0.52F + bob * -0.6F, -0.72F);
         }
