@@ -36,14 +36,14 @@ public final class CustomUseAnimationRegistry
 
     public static class CustomUseAnimation
     {
-        public void transform(Minecraft minecraft, PoseStack poseStack, float f, HumanoidArm humanoidArm, ItemStack itemStack)
+        public void transform(Minecraft minecraft, PoseStack poseStack, float f, float swing, HumanoidArm humanoidArm, ItemStack itemStack)
         {
 
         }
 
-        protected void applyItemArmTransform(PoseStack pose, HumanoidArm arm, float bob) {
+        protected void applyItemArmTransform(PoseStack pose, HumanoidArm arm, float swing) {
             int xDirection = arm == HumanoidArm.RIGHT ? 1 : -1;
-            pose.translate((float)xDirection * 0.56F, -0.52F + bob * -0.6F, -0.72F);
+            pose.translate((float)xDirection * 0.56F, -0.52F + swing * -0.6F, -0.72F);
         }
     }
 

@@ -41,7 +41,7 @@ public abstract class ItemInHandRendererMixin
         HumanoidArm humanoidArm = isMainHand ? abstractClientPlayer.getMainArm() : abstractClientPlayer.getMainArm().getOpposite();
         boolean isRight = humanoidArm == HumanoidArm.RIGHT;
 
-        animation.transform(minecraft, poseStack, f, humanoidArm, itemStack);
+        animation.transform(minecraft, poseStack, f, i, humanoidArm, itemStack);
         this.renderItem(abstractClientPlayer, itemStack, isRight ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, !isRight, poseStack, multiBufferSource, delta);
 
         poseStack.popPose();
