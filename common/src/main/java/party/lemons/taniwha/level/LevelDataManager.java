@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.saveddata.SavedData;
+import party.lemons.taniwha.TConstants;
 
 import java.util.Map;
 
@@ -131,6 +132,6 @@ public class LevelDataManager extends SavedData
     public static String getFileId(Holder<DimensionType> holder)
     {
         ResourceLocation location = holder.unwrapKey().get().location();
-        return location.getNamespace() + "_" + location.getPath();
+        return TConstants.MOD_ID + "_" + location.getNamespace() + "_" + location.getPath();
     }
 }
