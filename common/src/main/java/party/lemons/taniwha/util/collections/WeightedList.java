@@ -49,6 +49,10 @@ public class WeightedList<T>
         return entries;
     }
 
+    public int getTotalWeight() {
+        return totalWeight;
+    }
+
     public record Entry<T>(T object, int weight)
     {
     }
