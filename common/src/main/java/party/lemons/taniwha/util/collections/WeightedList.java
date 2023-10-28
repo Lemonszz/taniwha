@@ -45,7 +45,12 @@ public class WeightedList<T>
         return entries.isEmpty();
     }
 
-    private record Entry<T>(T object, int weight)
+    public List<Entry<T>> getEntries() {
+        return entries;
+    }
+
+    public record Entry<T>(T object, int weight)
     {
     }
+
 }
