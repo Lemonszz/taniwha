@@ -1,9 +1,12 @@
 package party.lemons.taniwha.util;
 
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,11 +19,37 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
 public class ItemUtil
 {
+	public static void giveOrDropItem(Player player, InteractionHand handItem, ItemStack itemStack)
+	{
+		if (player.getItemInHand(handItem).isEmpty()) {
+			player.setItemInHand(handItem, itemStack);
+		} else if (!player.addItem(itemStack)) {
+			player.drop(itemStack, false);
+		}
+	}
+
+
+	public static void consumeItem(Player player, ItemStack stack)
+	{
+		if (!player.getAbilities().instabuild) {
+			stack.shrink(1);
+		}
+	}
+
+	public static void hurtAndBreakOnBlock(@Nullable Player player, ItemStack stack, InteractionHand hand, BlockPos pos)
+	{
+		if (player instanceof ServerPlayer) {
+			CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, pos, stack);
+		}
+		stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+	}
+
 	/*
 		Shrinks an itemstack if the player isn't in creative
 	 */
